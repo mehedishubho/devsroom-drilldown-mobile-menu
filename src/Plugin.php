@@ -50,6 +50,13 @@ final class Plugin {
     }
 
     /**
+     * Prevent unserialization of the singleton.
+     */
+    public function __wakeup() {
+        throw new \BadMethodCallException( 'Cannot unserialize singleton' );
+    }
+
+    /**
      * Initialize the plugin.
      *
      * Checks for Elementor presence. If Elementor is not active, registers an

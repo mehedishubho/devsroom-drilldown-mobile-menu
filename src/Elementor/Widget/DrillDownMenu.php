@@ -13,8 +13,8 @@ use Elementor\Widget_Base;
  * DrillDown Mobile Menu widget for Elementor.
  *
  * Provides a mobile drill-down navigation menu with off-canvas drawer.
- * This Phase 1 shell registers the widget identity, icon, category, and
- * asset dependencies. Controls and rendering are populated in Plan 02.
+ * Phase 1 delivers the widget identity, asset dependencies, Content Tab
+ * trigger controls, and trigger button rendering with four types.
  */
 class DrillDownMenu extends Widget_Base {
 
@@ -93,7 +93,7 @@ class DrillDownMenu extends Widget_Base {
      *
      * @return void
      */
-    protected function register_controls(): void {
+    protected function _register_controls(): void {
         // --- Content Tab: Trigger Button Section ---
         $this->start_controls_section(
             'section_trigger',
