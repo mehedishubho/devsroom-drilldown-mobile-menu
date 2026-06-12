@@ -1,0 +1,23 @@
+/*
+ * Devsroom DrillDown Mobile Menu - Phase 1: CSS Custom Properties Skeleton
+ *
+ * Trigger button base styles will be added in Plan 02.
+ * Full Style Tab integration comes in Phase 6.
+ */
+
+.elementor-widget-ddmm-drilldown-menu {
+    --ddmm-trigger-color: #1a1a1a;
+    --ddmm-trigger-bg: transparent;
+    --ddmm-trigger-padding: 8px;
+    --ddmm-trigger-border: none;
+    --ddmm-trigger-border-radius: 0;
+    --ddmm-trigger-cursor: pointer;
+    --ddmm-trigger-font-size: 16px;
+    --ddmm-hamburger-width: 28px;
+    --ddmm-hamburger-height: 20px;
+    --ddmm-hamburger-line-height: 2px;
+    --ddmm-hamburger-line-gap: 6px;
+    --ddmm-hamburger-line-color: var(--ddmm-trigger-color);
+    --ddmm-hamburger-line-radius: 1px;
+    --ddmm-transition-duration: 300ms;
+}
