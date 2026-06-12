@@ -48,7 +48,11 @@ Plans:
   3. Menu items without children are represented as link nodes with their URLs
   4. Menu items with children are represented as parent nodes with data-target references and arrow indicators
   5. WooCommerce menu items (Cart, My Account, Checkout, Shop) appear with correct URLs when WooCommerce is active
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Content Tab Menu section (source toggle, WP menu dropdown) and render() empty-state hint integration
+- [ ] 02-02-PLAN.md — Pure-PHP 3-pass ID-based WpNavTree tree builder (src/MenuBuilder/WpNavTree.php)
 
 ### Phase 3: Custom Menu Builder
 **Goal**: Users can build a complete menu from scratch using a flat repeater with a depth field that produces nested panel output
@@ -119,7 +123,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Plugin Foundation & Widget Shell | 2/2 | Complete    | 2026-06-12 |
-| 2. WordPress Menu Source | 0/? | Not started | - |
+| 2. WordPress Menu Source | 0/2 | Not started | - |
 | 3. Custom Menu Builder | 0/? | Not started | - |
 | 4. Rendering Pipeline & Drawer HTML | 0/? | Not started | - |
 | 5. Frontend Drill-Down JavaScript | 0/? | Not started | - |
