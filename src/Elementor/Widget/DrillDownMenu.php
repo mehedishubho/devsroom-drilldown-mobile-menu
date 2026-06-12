@@ -194,11 +194,69 @@ class DrillDownMenu extends Widget_Base {
     /**
      * Render the widget output on the frontend.
      *
-     * Trigger button rendering added in Plan 02 / Phase 1.
+     * Outputs the trigger button HTML based on the selected trigger type.
+     * Four variants: Hamburger Lines (3 CSS spans), Custom Icon, Text Only,
+     * and Icon + Text with configurable position.
      *
      * @return void
      */
     protected function render(): void {
-        // Trigger button rendering added in Plan 02 / Phase 1.
+        $settings     = $this->get_settings_for_display();
+        $trigger_type = $settings['trigger_type'] ?? 'hamburger';
+        $widget_id    = $this->get_id();
+        ?>
+        <div class="ddmm-trigger-wrapper">
+            <button
+                type="button"
+                class="ddmm-trigger ddmm-trigger--<?php echo esc_attr( $trigger_type ); ?>"
+                aria-expanded="false"
+                aria-controls="ddmm-drawer-<?php echo esc_attr( $widget_id ); ?>"
+            >
+                <?php
+                switch ( $trigger_type ) {
+                    case 'hamburger':
+                        ?>
+                        <span class="ddmm-hamburger">
+                            <span class="ddmm-hamburger__line"></span>
+                            <span class="ddmm-hamburger__line"></span>
+                            <span class="ddmm-hamburger__line"></span>
+                        </span>
+                        <?php
+                        break;
+
+                    case 'custom_icon':
+                        \Elementor\Icons_Manager::render_icon(
+                            $settings['trigger_icon'],
+                            [ 'aria-hidden' => 'true' ]
+                        );
+                        break;
+
+                    case 'text_only':
+                        echo esc_html( $settings['trigger_text'] );
+                        break;
+
+                    case 'icon_text':
+                        // Capture icon HTML as string for concatenation with text.
+                        ob_start();
+                        \Elementor\Icons_Manager::render_icon(
+                            $settings['trigger_icon_text_icon'],
+                            [ 'aria-hidden' => 'true' ]
+                        );
+                        $icon_html = ob_get_clean();
+
+                        $text     = esc_html( $settings['trigger_text'] );
+                        $position = $settings['trigger_icon_position'] ?? 'before';
+
+                        if ( 'before' === $position ) {
+                            echo $icon_html . '<span class="ddmm-trigger__text">' . $text . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $icon_html already escaped by Icons_Manager
+                        } else {
+                            echo '<span class="ddmm-trigger__text">' . $text . '</span>' . $icon_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $icon_html already escaped by Icons_Manager
+                        }
+                        break;
+                }
+                ?>
+            </button>
+        </div>
+        <?php
     }
 }

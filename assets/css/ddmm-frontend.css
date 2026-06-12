@@ -1,8 +1,8 @@
 /*
- * Devsroom DrillDown Mobile Menu - Phase 1: CSS Custom Properties Skeleton
+ * Devsroom DrillDown Mobile Menu - Phase 1: Trigger Button Base Styles
  *
- * Trigger button base styles will be added in Plan 02.
- * Full Style Tab integration comes in Phase 6.
+ * CSS custom properties overridden by Phase 6 Style Tab controls.
+ * Phase 5 adds hamburger-to-X animation via .ddmm-trigger--active class.
  */
 
 .elementor-widget-ddmm-drilldown-menu {
@@ -21,3 +21,53 @@
     --ddmm-hamburger-line-radius: 1px;
     --ddmm-transition-duration: 300ms;
 }
+
+/* Trigger Button Base Styles */
+.ddmm-trigger-wrapper {
+    display: inline-block;
+}
+
+.ddmm-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: var(--ddmm-trigger-padding);
+    background: var(--ddmm-trigger-bg);
+    border: var(--ddmm-trigger-border);
+    border-radius: var(--ddmm-trigger-border-radius);
+    color: var(--ddmm-trigger-color);
+    font-size: var(--ddmm-trigger-font-size);
+    cursor: var(--ddmm-trigger-cursor);
+    line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+    transition: background var(--ddmm-transition-duration) ease,
+                color var(--ddmm-transition-duration) ease;
+}
+
+.ddmm-trigger:focus-visible {
+    outline: 2px solid var(--ddmm-trigger-color);
+    outline-offset: 2px;
+}
+
+/* Hamburger Lines (3-span trick per D-10) */
+.ddmm-hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: var(--ddmm-hamburger-width);
+    height: var(--ddmm-hamburger-height);
+}
+
+.ddmm-hamburger__line {
+    display: block;
+    width: 100%;
+    height: var(--ddmm-hamburger-line-height);
+    background-color: var(--ddmm-hamburger-line-color);
+    border-radius: var(--ddmm-hamburger-line-radius);
+    transition: transform var(--ddmm-transition-duration) ease,
+                opacity var(--ddmm-transition-duration) ease;
+}
+
+/* Phase 5 will add .ddmm-trigger--active .ddmm-hamburger__line
+   transforms for hamburger-to-X animation */
