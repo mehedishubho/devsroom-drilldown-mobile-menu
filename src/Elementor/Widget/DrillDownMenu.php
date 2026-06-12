@@ -189,6 +189,66 @@ class DrillDownMenu extends Widget_Base {
         );
 
         $this->end_controls_section();
+
+        // --- Content Tab: Menu Section (Phase 2, Plan 01) ---
+        $this->start_controls_section(
+            'section_menu',
+            [
+                'label'     => esc_html__( 'Menu', 'devsroom-drilldown-mobile-menu' ),
+                'tab'       => \Elementor\Controls_Manager::TAB_CONTENT,
+                'separator' => 'before',
+            ]
+        );
+
+        // D-01: Menu Source toggle (WordPress Menu / Custom Builder).
+        $this->add_control(
+            'menu_source',
+            [
+                'label'   => esc_html__( 'Menu Source', 'devsroom-drilldown-mobile-menu' ),
+                'type'    => \Elementor\Controls_Manager::SELECT,
+                'default' => 'wp_menu',
+                'options' => [
+                    'wp_menu' => esc_html__( 'WordPress Menu', 'devsroom-drilldown-mobile-menu' ),
+                    'custom'  => esc_html__( 'Custom Builder', 'devsroom-drilldown-mobile-menu' ),
+                ],
+            ]
+        );
+
+        // WP Menu dropdown — visible only when source is 'wp_menu'.
+        $this->add_control(
+            'wp_menu_id',
+            [
+                'label'     => esc_html__( 'Select Menu', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::SELECT,
+                'default'   => '',
+                'options'   => $this->get_wp_menu_options(),
+                'condition' => [
+                    'menu_source' => 'wp_menu',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+    }
+
+    /**
+     * Build SELECT options from all registered WordPress nav menus.
+     *
+     * @return array<int|string, string> Menu term_id => menu name. Includes empty default.
+     */
+    protected function get_wp_menu_options(): array {
+        $menus   = wp_get_nav_menus();
+        $options = [ '' => esc_html__( '— Select a Menu —', 'devsroom-drilldown-mobile-menu' ) ];
+
+        if ( empty( $menus ) ) {
+            return $options;
+        }
+
+        foreach ( $menus as $menu ) {
+            $options[ $menu->term_id ] = $menu->name;
+        }
+
+        return $options;
     }
 
     /**
