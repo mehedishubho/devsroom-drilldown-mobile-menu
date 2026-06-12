@@ -710,17 +710,17 @@ public function get_icon(): string {
 
 Since A1-A4 are all LOW risk and have simple fallbacks, no user confirmation is strictly required.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Widget icon approach verification**
+1. **Widget icon approach verification** — RESOLVED
    - What we know: Elementor's `get_icon()` accepts icon class strings (e.g., `eicon-menu-bar`). Data URI SVGs work in practice based on community examples.
-   - What's unclear: Whether data URI is the officially recommended approach for custom widget icons.
-   - Recommendation: Use data URI SVG. If it fails in testing, fall back to `eicon-menu-bar` (Elementor's built-in menu bar icon).
+   - What was unclear: Whether data URI is the officially recommended approach for custom widget icons.
+   - **Resolution:** Use data URI SVG as the primary approach (confirmed in CONTEXT.md D-03). Fallback to `eicon-menu-bar` if data URI fails during testing. Risk: LOW.
 
-2. **Icon rendering return value for concatenation**
+2. **Icon rendering return value for concatenation** — RESOLVED
    - What we know: `\Elementor\Icons_Manager::render_icon()` defaults to echo. The 4th parameter `$return` exists.
-   - What's unclear: Exact signature in current Elementor version.
-   - Recommendation: Verify at implementation time. Alternative: use output buffering (`ob_start()` / `ob_get_clean()`).
+   - What was unclear: Exact signature in current Elementor version.
+   - **Resolution:** Use `ob_start()` / `ob_get_clean()` as the primary approach for capturing icon output as a string. This is a well-known PHP pattern that works regardless of the exact `render_icon()` signature. Risk: LOW.
 
 ## Environment Availability
 
