@@ -32,7 +32,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. User can configure trigger button type (Hamburger, Custom Icon, Text Only, Icon + Text) and see it rendered on the page
   4. Trigger button has correct aria-expanded and aria-controls attributes for accessibility
   5. Plugin JS and CSS files are only loaded on pages where the widget is present
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Plugin bootstrap, autoloader, admin notice, widget registration, and asset loading pipeline
+- [ ] 01-02-PLAN.md — Content Tab trigger controls, four trigger type rendering, and base CSS styles
 
 ### Phase 2: WordPress Menu Source
 **Goal**: Users can select any registered WordPress menu and the plugin converts it into a nested tree structure using the 3-pass ID-based algorithm
@@ -78,7 +82,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Tapping a parent menu item slides the current panel left and reveals the child panel from the right; back button reverses this at any nesting depth
   3. Animation type (Slide, Fade, Scale, Slide+Fade), duration (100ms-2000ms), and easing are configurable and all use GPU-composited CSS only (transform, opacity)
   4. Optional search box filters menu items across all panels in real time
-  5. Auto-open current page path drills down to and highlights the current page; close-after-link-click and close-on-overlay-click toggles work as configured
+  5. Auto-open current page path drills down to and highlights the current page item; close-after-link-click and close-on-overlay-click toggles work as configured
 **Plans**: TBD
 
 ### Phase 6: Style Tab Controls
@@ -114,7 +118,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Plugin Foundation & Widget Shell | 0/? | Not started | - |
+| 1. Plugin Foundation & Widget Shell | 0/2 | Planning complete | - |
 | 2. WordPress Menu Source | 0/? | Not started | - |
 | 3. Custom Menu Builder | 0/? | Not started | - |
 | 4. Rendering Pipeline & Drawer HTML | 0/? | Not started | - |
