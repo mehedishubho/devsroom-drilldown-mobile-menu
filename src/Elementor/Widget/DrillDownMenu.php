@@ -318,5 +318,26 @@ class DrillDownMenu extends Widget_Base {
             </button>
         </div>
         <?php
+
+        // --- Phase 2: Menu tree building (data layer only, per D-03) ---
+        $menu_source = $settings['menu_source'] ?? 'wp_menu';
+        $tree        = [];
+
+        if ( 'wp_menu' === $menu_source && ! empty( $settings['wp_menu_id'] ) ) {
+            $tree = \Devsroom_DDMM\MenuBuilder\WpNavTree::build( $settings['wp_menu_id'] );
+        }
+
+        // D-05: Empty state — zero frontend HTML, editor-only hint.
+        if ( empty( $tree ) ) {
+            if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
+                echo '<div class="ddmm-editor-hint">' .
+                     esc_html__( 'Select a menu to display', 'devsroom-drilldown-mobile-menu' ) .
+                     '</div>';
+            }
+            return; // Zero frontend HTML for the menu portion.
+        }
+
+        // Phase 4 will render the drawer + panels from $tree here.
+        // Phase 2 does NOT output the tree as HTML — that is Phase 4's job (D-03).
     }
 }
