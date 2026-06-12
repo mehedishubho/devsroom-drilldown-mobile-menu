@@ -35,8 +35,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Plugin bootstrap, autoloader, admin notice, widget registration, and asset loading pipeline
-- [ ] 01-02-PLAN.md — Content Tab trigger controls, four trigger type rendering, and base CSS styles
+- [x] 01-01-PLAN.md — Plugin bootstrap, autoloader, admin notice, widget registration, and asset loading pipeline
+- [x] 01-02-PLAN.md — Content Tab trigger controls, four trigger type rendering, and base CSS styles
 
 ### Phase 2: WordPress Menu Source
 **Goal**: Users can select any registered WordPress menu and the plugin converts it into a nested tree structure using the 3-pass ID-based algorithm
@@ -118,7 +118,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Plugin Foundation & Widget Shell | 0/2 | Planning complete | - |
+| 1. Plugin Foundation & Widget Shell | 1/2 | In Progress|  |
 | 2. WordPress Menu Source | 0/? | Not started | - |
 | 3. Custom Menu Builder | 0/? | Not started | - |
 | 4. Rendering Pipeline & Drawer HTML | 0/? | Not started | - |
