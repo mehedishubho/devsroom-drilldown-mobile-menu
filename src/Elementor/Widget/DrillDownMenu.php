@@ -88,12 +88,107 @@ class DrillDownMenu extends Widget_Base {
     /**
      * Register widget controls (Content Tab and Style Tab).
      *
-     * Content Tab controls added in Plan 02 / Phase 1.
+     * Content Tab: Trigger Button configuration (Plan 02 / Phase 1).
+     * Style Tab: Added in Phase 6.
      *
      * @return void
      */
     protected function register_controls(): void {
-        // Content Tab controls added in Plan 02 / Phase 1.
+        // --- Content Tab: Trigger Button Section ---
+        $this->start_controls_section(
+            'section_trigger',
+            [
+                'label' => esc_html__( 'Trigger Button', 'devsroom-drilldown-mobile-menu' ),
+                'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        // Trigger Type selector (per D-09).
+        $this->add_control(
+            'trigger_type',
+            [
+                'label'   => esc_html__( 'Trigger Type', 'devsroom-drilldown-mobile-menu' ),
+                'type'    => \Elementor\Controls_Manager::SELECT,
+                'default' => 'hamburger',
+                'options' => [
+                    'hamburger'   => esc_html__( 'Hamburger Lines', 'devsroom-drilldown-mobile-menu' ),
+                    'custom_icon' => esc_html__( 'Custom Icon', 'devsroom-drilldown-mobile-menu' ),
+                    'text_only'   => esc_html__( 'Text Only', 'devsroom-drilldown-mobile-menu' ),
+                    'icon_text'   => esc_html__( 'Icon + Text', 'devsroom-drilldown-mobile-menu' ),
+                ],
+            ]
+        );
+
+        // Custom Icon picker — shown only when trigger_type is 'custom_icon' (per TRIG-03, D-09).
+        $this->add_control(
+            'trigger_icon',
+            [
+                'label'     => esc_html__( 'Choose Icon', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::ICONS,
+                'default'   => [
+                    'value'   => 'fas fa-bars',
+                    'library' => 'fa-solid',
+                ],
+                'condition' => [
+                    'trigger_type' => 'custom_icon',
+                ],
+            ]
+        );
+
+        // Button Text input — shown for text_only or icon_text (per TRIG-04, D-09).
+        $this->add_control(
+            'trigger_text',
+            [
+                'label'       => esc_html__( 'Button Text', 'devsroom-drilldown-mobile-menu' ),
+                'type'        => \Elementor\Controls_Manager::TEXT,
+                'default'     => esc_html__( 'Menu', 'devsroom-drilldown-mobile-menu' ),
+                'placeholder' => esc_html__( 'Enter menu text', 'devsroom-drilldown-mobile-menu' ),
+                'condition'   => [
+                    'trigger_type' => [ 'text_only', 'icon_text' ],
+                ],
+            ]
+        );
+
+        // Icon for Icon+Text mode (per TRIG-05, D-11).
+        $this->add_control(
+            'trigger_icon_text_icon',
+            [
+                'label'     => esc_html__( 'Choose Icon', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::ICONS,
+                'default'   => [
+                    'value'   => 'fas fa-bars',
+                    'library' => 'fa-solid',
+                ],
+                'condition' => [
+                    'trigger_type' => 'icon_text',
+                ],
+            ]
+        );
+
+        // Icon Position (before/after text) — shown only for icon_text (per D-11).
+        $this->add_control(
+            'trigger_icon_position',
+            [
+                'label'     => esc_html__( 'Icon Position', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::CHOOSE,
+                'default'   => 'before',
+                'options'   => [
+                    'before' => [
+                        'title' => esc_html__( 'Before Text', 'devsroom-drilldown-mobile-menu' ),
+                        'icon'  => 'eicon-h-align-left',
+                    ],
+                    'after'  => [
+                        'title' => esc_html__( 'After Text', 'devsroom-drilldown-mobile-menu' ),
+                        'icon'  => 'eicon-h-align-right',
+                    ],
+                ],
+                'condition' => [
+                    'trigger_type' => 'icon_text',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
     }
 
     /**
