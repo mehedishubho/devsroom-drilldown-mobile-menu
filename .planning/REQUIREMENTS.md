@@ -145,76 +145,76 @@
 | PLUG-04 | Phase 1 | Pending |
 | PLUG-05 | Phase 1 | Pending |
 | PLUG-06 | Phase 1 | Pending |
-| WIDG-01 | Phase 2 | Pending |
-| WIDG-02 | Phase 2 | Pending |
-| WIDG-03 | Phase 2 | Pending |
-| WIDG-04 | Phase 2 | Pending |
-| WMEN-01 | Phase 3 | Pending |
-| WMEN-02 | Phase 3 | Pending |
-| WMEN-03 | Phase 3 | Pending |
-| WMEN-04 | Phase 3 | Pending |
-| WMEN-05 | Phase 3 | Pending |
-| CMEN-01 | Phase 4 | Pending |
-| CMEN-02 | Phase 4 | Pending |
-| CMEN-03 | Phase 4 | Pending |
-| CMEN-04 | Phase 4 | Pending |
-| CMEN-05 | Phase 4 | Pending |
-| TRIG-01 | Phase 2 | Pending |
-| TRIG-02 | Phase 2 | Pending |
-| TRIG-03 | Phase 2 | Pending |
-| TRIG-04 | Phase 2 | Pending |
-| TRIG-05 | Phase 2 | Pending |
-| TRIG-06 | Phase 2 | Pending |
-| DRAW-01 | Phase 5 | Pending |
-| DRAW-02 | Phase 5 | Pending |
-| DRAW-03 | Phase 5 | Pending |
-| DRAW-04 | Phase 5 | Pending |
-| DRAW-05 | Phase 5 | Pending |
-| DRAW-06 | Phase 5 | Pending |
-| DRAW-07 | Phase 5 | Pending |
-| DRAW-08 | Phase 5 | Pending |
-| DRAW-09 | Phase 5 | Pending |
-| DRAW-10 | Phase 5 | Pending |
-| DRAW-11 | Phase 5 | Pending |
-| ANIM-01 | Phase 6 | Pending |
-| ANIM-02 | Phase 6 | Pending |
-| ANIM-03 | Phase 6 | Pending |
-| ANIM-04 | Phase 6 | Pending |
-| EXTR-01 | Phase 6 | Pending |
-| EXTR-02 | Phase 6 | Pending |
-| EXTR-03 | Phase 6 | Pending |
-| EXTR-04 | Phase 6 | Pending |
-| EXTR-05 | Phase 6 | Pending |
-| STYL-01 | Phase 7 | Pending |
-| STYL-02 | Phase 7 | Pending |
-| STYL-03 | Phase 7 | Pending |
-| STYL-04 | Phase 7 | Pending |
-| STYL-05 | Phase 7 | Pending |
-| STYL-06 | Phase 7 | Pending |
-| A11Y-01 | Phase 5 | Pending |
-| A11Y-02 | Phase 5 | Pending |
-| A11Y-03 | Phase 5 | Pending |
-| A11Y-04 | Phase 6 | Pending |
-| A11Y-05 | Phase 6 | Pending |
-| A11Y-06 | Phase 6 | Pending |
-| A11Y-07 | Phase 6 | Pending |
-| A11Y-08 | Phase 6 | Pending |
-| JSCR-01 | Phase 5 | Pending |
-| JSCR-02 | Phase 5 | Pending |
-| JSCR-03 | Phase 5 | Pending |
-| JSCR-04 | Phase 5 | Pending |
-| JSCR-05 | Phase 5 | Pending |
+| WIDG-01 | Phase 1 | Pending |
+| WIDG-02 | Phase 1 | Pending |
+| WIDG-03 | Phase 1 | Pending |
+| WIDG-04 | Phase 1 | Pending |
+| TRIG-01 | Phase 1 | Pending |
+| TRIG-02 | Phase 1 | Pending |
+| TRIG-03 | Phase 1 | Pending |
+| TRIG-04 | Phase 1 | Pending |
+| TRIG-05 | Phase 1 | Pending |
+| TRIG-06 | Phase 1 | Pending |
 | COMP-01 | Phase 1 | Pending |
-| COMP-02 | Phase 2 | Pending |
-| COMP-03 | Phase 8 | Pending |
-| COMP-04 | Phase 8 | Pending |
+| COMP-02 | Phase 1 | Pending |
 | COMP-05 | Phase 1 | Pending |
+| WMEN-01 | Phase 2 | Pending |
+| WMEN-02 | Phase 2 | Pending |
+| WMEN-03 | Phase 2 | Pending |
+| WMEN-04 | Phase 2 | Pending |
+| WMEN-05 | Phase 2 | Pending |
+| CMEN-01 | Phase 3 | Pending |
+| CMEN-02 | Phase 3 | Pending |
+| CMEN-03 | Phase 3 | Pending |
+| CMEN-04 | Phase 3 | Pending |
+| CMEN-05 | Phase 3 | Pending |
+| DRAW-01 | Phase 4 | Pending |
+| DRAW-02 | Phase 4 | Pending |
+| DRAW-03 | Phase 4 | Pending |
+| DRAW-04 | Phase 4 | Pending |
+| DRAW-05 | Phase 4 | Pending |
+| DRAW-06 | Phase 4 | Pending |
+| DRAW-07 | Phase 4 | Pending |
+| DRAW-08 | Phase 4 | Pending |
+| DRAW-09 | Phase 4 | Pending |
+| DRAW-10 | Phase 4 | Pending |
+| DRAW-11 | Phase 4 | Pending |
+| A11Y-01 | Phase 4 | Pending |
+| A11Y-02 | Phase 4 | Pending |
+| A11Y-03 | Phase 4 | Pending |
+| JSCR-01 | Phase 4 | Pending |
+| JSCR-02 | Phase 4 | Pending |
+| JSCR-03 | Phase 4 | Pending |
+| JSCR-04 | Phase 4 | Pending |
+| JSCR-05 | Phase 4 | Pending |
+| ANIM-01 | Phase 5 | Pending |
+| ANIM-02 | Phase 5 | Pending |
+| ANIM-03 | Phase 5 | Pending |
+| ANIM-04 | Phase 5 | Pending |
+| EXTR-01 | Phase 5 | Pending |
+| EXTR-02 | Phase 5 | Pending |
+| EXTR-03 | Phase 5 | Pending |
+| EXTR-04 | Phase 5 | Pending |
+| EXTR-05 | Phase 5 | Pending |
+| STYL-01 | Phase 6 | Pending |
+| STYL-02 | Phase 6 | Pending |
+| STYL-03 | Phase 6 | Pending |
+| STYL-04 | Phase 6 | Pending |
+| STYL-05 | Phase 6 | Pending |
+| STYL-06 | Phase 6 | Pending |
+| A11Y-04 | Phase 7 | Pending |
+| A11Y-05 | Phase 7 | Pending |
+| A11Y-06 | Phase 7 | Pending |
+| A11Y-07 | Phase 7 | Pending |
+| A11Y-08 | Phase 7 | Pending |
+| COMP-03 | Phase 7 | Pending |
+| COMP-04 | Phase 7 | Pending |
 
 **Coverage:**
-- v1 requirements: 55 total
-- Mapped to phases: 55
-- Unmapped: 0 ✓
+- v1 requirements: 70 total
+- Mapped to phases: 70
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-06-12*
-*Last updated: 2026-06-12 after initial definition*
+*Last updated: 2026-06-12 after roadmap creation*
