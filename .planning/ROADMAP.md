@@ -12,7 +12,7 @@ This roadmap delivers a production-ready WordPress Elementor widget for mobile d
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Plugin Foundation & Widget Shell** - Plugin bootstrap, Elementor dependency check, widget registration, trigger button, and conditional asset loading
+- [x] **Phase 1: Plugin Foundation & Widget Shell** - Plugin bootstrap, Elementor dependency check, widget registration, trigger button, and conditional asset loading (completed 2026-06-12)
 - [ ] **Phase 2: WordPress Menu Source** - WP menu dropdown, 3-pass tree builder, and menu item rendering
 - [ ] **Phase 3: Custom Menu Builder** - Repeater control with depth field, stack-based tree builder, and visual hierarchy
 - [ ] **Phase 4: Rendering Pipeline & Drawer HTML** - Drawer HTML output, panel structure, ARIA markup, and PHP-to-browser DOM contract
@@ -118,7 +118,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Plugin Foundation & Widget Shell | 1/2 | In Progress|  |
+| 1. Plugin Foundation & Widget Shell | 2/2 | Complete    | 2026-06-12 |
 | 2. WordPress Menu Source | 0/? | Not started | - |
 | 3. Custom Menu Builder | 0/? | Not started | - |
 | 4. Rendering Pipeline & Drawer HTML | 0/? | Not started | - |
