@@ -20,6 +20,7 @@
     --ddmm-hamburger-line-color: var(--ddmm-trigger-color);
     --ddmm-hamburger-line-radius: 1px;
     --ddmm-transition-duration: 300ms;
+    --ddmm-transition-easing: ease;
 
     /* Phase 4 layout vars (Phase 6 Style Tab will override these) */
     --ddmm-drawer-width: 320px;
@@ -53,8 +54,8 @@
     cursor: var(--ddmm-trigger-cursor);
     line-height: 1;
     -webkit-tap-highlight-color: transparent;
-    transition: background var(--ddmm-transition-duration) ease,
-                color var(--ddmm-transition-duration) ease;
+    transition: background var(--ddmm-transition-duration) var( --ddmm-transition-easing ),
+                color var(--ddmm-transition-duration) var( --ddmm-transition-easing );
 }
 
 .ddmm-trigger:focus-visible {
@@ -77,8 +78,8 @@
     height: var(--ddmm-hamburger-line-height);
     background-color: var(--ddmm-hamburger-line-color);
     border-radius: var(--ddmm-hamburger-line-radius);
-    transition: transform var(--ddmm-transition-duration) ease,
-                opacity var(--ddmm-transition-duration) ease;
+    transition: transform var(--ddmm-transition-duration) var( --ddmm-transition-easing ),
+                opacity var(--ddmm-transition-duration) var( --ddmm-transition-easing );
 }
 
 /* Phase 5 will add .ddmm-trigger--active .ddmm-hamburger__line
@@ -103,8 +104,8 @@
     opacity: 0;
     visibility: hidden;
     z-index: var( --ddmm-z-overlay );
-    transition: opacity var( --ddmm-transition-duration ) ease,
-                visibility var( --ddmm-transition-duration ) ease;
+    transition: opacity var( --ddmm-transition-duration ) var( --ddmm-transition-easing ),
+                visibility var( --ddmm-transition-duration ) var( --ddmm-transition-easing );
 }
 
 /* Drawer — fixed left, off-canvas (DRAW-01, D-17, D-20) */
@@ -121,7 +122,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform var( --ddmm-transition-duration ) ease;
+    transition: transform var( --ddmm-transition-duration ) var( --ddmm-transition-easing );
     will-change: transform;
 }
 
@@ -179,14 +180,16 @@
     inset: 0;
     overflow-y: auto;
     transform: translateX( 100% );   /* off-stage right by default (sub-panels) */
-    transition: transform var( --ddmm-transition-duration ) ease,
-                opacity var( --ddmm-transition-duration ) ease;
+    opacity: 0;
+    transition: transform var( --ddmm-transition-duration ) var( --ddmm-transition-easing ),
+                opacity var( --ddmm-transition-duration ) var( --ddmm-transition-easing );
     will-change: transform, opacity;
     background: var( --ddmm-panel-bg );
 
     /* D-26: root/active panel in-place */
     &.ddmm-panel--active {
         transform: translateX( 0 );
+        opacity: 1;
     }
 }
 
