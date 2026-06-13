@@ -24,6 +24,11 @@ The drill-down panel navigation must work flawlessly at any depth — parent ite
 - 3-pass ID-based tree builder converting flat wp_get_nav_menu_items() to nested tree (Phase 2)
 - Editor-only hint when no menu selected; zero frontend HTML on empty state (Phase 2)
 - WooCommerce menu items flow through tree builder unchanged (Phase 2)
+- Custom Menu Builder repeater with Label, URL, Depth, Icon, Open in New Tab fields (Phase 3)
+- Stack-based depth-field algorithm converting flat repeater data to nested tree (Phase 3)
+- CustomTree outputs identical node contract as WpNavTree (8-field with icon) — one Phase 4 render path (Phase 3)
+- Repeater indent dashes for visual hierarchy in Elementor editor (Phase 3)
+- Source-aware empty-state hints (WP menu vs custom builder) (Phase 3)
 
 ### Active
 
@@ -35,9 +40,9 @@ The drill-down panel navigation must work flawlessly at any depth — parent ite
 - [ ] Close (✕) button in drawer header dismisses the menu
 - [ ] Drawer header shows site logo, custom image, custom text, or none (configurable)
 - [ ] WordPress Menu source: dropdown of all registered `wp_nav_menus()` (Validated in Phase 2)
-- [ ] Custom Menu Builder: repeater with Label, URL, Depth, Icon, Open in New Tab fields
-- [ ] Depth field drives nesting — flat list in Elementor, nested panels in rendered output
-- [ ] Custom Menu Builder shows indent dashes for visual hierarchy (— Child, —— Grandchild)
+- [ ] Custom Menu Builder: repeater with Label, URL, Depth, Icon, Open in New Tab fields (Validated in Phase 3)
+- [ ] Depth field drives nesting — flat list in Elementor, nested panels in rendered output (Validated in Phase 3)
+- [ ] Custom Menu Builder shows indent dashes for visual hierarchy (— Child, —— Grandchild) (Validated in Phase 3)
 - [ ] Trigger button types: Hamburger Lines, Custom Icon, Text Only, Icon + Text
 - [ ] 4 animation types: Slide, Fade, Scale, Slide + Fade
 - [ ] Configurable transition duration (100ms–2000ms) and easing
@@ -115,4 +120,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-13 after Phase 2 completion*
+*Last updated: 2026-06-13 after Phase 3 completion*
