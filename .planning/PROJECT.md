@@ -19,6 +19,11 @@ The drill-down panel navigation must work flawlessly at any depth — parent ite
 - Conditional asset loading via `get_script_depends()`/`get_style_depends()` (Phase 1)
 - Four trigger types: Hamburger Lines (CSS 3-span), Custom Icon, Text Only, Icon + Text (Phase 1)
 - Trigger renders as `<button>` with `aria-expanded` and `aria-controls` (Phase 1)
+- WordPress Menu dropdown listing all registered nav menus by term_id (Phase 2)
+- Menu Source toggle (WordPress Menu / Custom Builder) in Content Tab (Phase 2)
+- 3-pass ID-based tree builder converting flat wp_get_nav_menu_items() to nested tree (Phase 2)
+- Editor-only hint when no menu selected; zero frontend HTML on empty state (Phase 2)
+- WooCommerce menu items flow through tree builder unchanged (Phase 2)
 
 ### Active
 
@@ -29,7 +34,7 @@ The drill-down panel navigation must work flawlessly at any depth — parent ite
 - [ ] Drill-down works for unlimited nesting levels (root → level 1 → level 2 → level 3…)
 - [ ] Close (✕) button in drawer header dismisses the menu
 - [ ] Drawer header shows site logo, custom image, custom text, or none (configurable)
-- [ ] WordPress Menu source: dropdown of all registered `wp_nav_menus()`
+- [ ] WordPress Menu source: dropdown of all registered `wp_nav_menus()` (Validated in Phase 2)
 - [ ] Custom Menu Builder: repeater with Label, URL, Depth, Icon, Open in New Tab fields
 - [ ] Depth field drives nesting — flat list in Elementor, nested panels in rendered output
 - [ ] Custom Menu Builder shows indent dashes for visual hierarchy (— Child, —— Grandchild)
@@ -110,4 +115,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-13 after Phase 1 completion*
+*Last updated: 2026-06-13 after Phase 2 completion*
