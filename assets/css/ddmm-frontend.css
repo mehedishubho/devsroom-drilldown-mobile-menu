@@ -299,3 +299,24 @@
         transform: translateX( 0 );   /* slide into view */
     }
 }
+
+/* ========================================================================
+   Phase 4 gap fix (WR-01): self-contained screen-reader-text.
+   Used by render_back_row() when show_back_title is OFF so the back-row
+   title span stays in the DOM (aria-labelledby still resolves) but is
+   visually hidden. Matches the WordPress-core .screen-reader-text pattern
+   so behavior is consistent regardless of whether the active theme
+   defines its own .screen-reader-text rule.
+   ======================================================================== */
+.screen-reader-text {
+    border: 0;
+    clip: rect( 1px, 1px, 1px, 1px );
+    clip-path: inset( 50% );
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    word-wrap: normal !important;
+}
