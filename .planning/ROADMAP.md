@@ -79,7 +79,13 @@ Plans:
   3. Each child panel has a Back button row showing the parent item name, with data-panel-id matching the parent's data-target
   4. Drawer header displays configurable brand content (Site Logo, Custom Image, Custom Text, or None) with a close button
   5. All output uses correct semantic HTML (nav aria-label, button/span with aria-expanded, aria-controls) and all dynamic output is escaped
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — DrawerRenderer stateless recursive tree-to-HTML renderer (panels, items, back-rows, header, icons, ARIA, escaping, ID threading)
+- [ ] 04-02-PLAN.md — Elementor widget integration: Drawer Header + Drawer Settings controls, render() call with .ddmm-widget wrapper and editor/frontend branching
+- [ ] 04-03-PLAN.md — Base layout CSS for off-canvas drawer, overlay, panel stacking, header, menu, chevron ::after, --ddmm-* vars
+- [ ] 04-04-PLAN.md — JS bootstrap skeleton (IIFE class, dual-path init, data-ddmm-init guard, container scope, no interactions)
 
 ### Phase 5: Frontend Drill-Down JavaScript
 **Goal**: The drill-down menu works as an interactive experience -- drawer opens/closes, panels slide in and out with configurable animations, back navigation works at any depth, and extra features (search, close behaviors, auto-open) function correctly
@@ -129,7 +135,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 1. Plugin Foundation & Widget Shell | 2/2 | Complete    | 2026-06-12 |
 | 2. WordPress Menu Source | 0/2 | Not started | - |
 | 3. Custom Menu Builder | 0/2 | Not started | - |
-| 4. Rendering Pipeline & Drawer HTML | 0/? | Not started | - |
+| 4. Rendering Pipeline & Drawer HTML | 0/4 | Not started | - |
 | 5. Frontend Drill-Down JavaScript | 0/? | Not started | - |
 | 6. Style Tab Controls | 0/? | Not started | - |
 | 7. Accessibility & Compatibility Polish | 0/? | Not started | - |
