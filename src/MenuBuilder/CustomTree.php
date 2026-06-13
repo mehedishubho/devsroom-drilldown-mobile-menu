@@ -61,13 +61,17 @@ class CustomTree {
 			// Target: SWITCHER returns 'yes' / '' (Pitfall 2: not boolean).
 			$target = ( ! empty( $item['new_tab'] ) && 'yes' === $item['new_tab'] ) ? '_blank' : '';
 
-			// Build the node array — exact 7-field contract matching WpNavTree (D-02).
+			// Icon: Elementor ICONS control data (CMEN-05). Passed through to Phase 4 renderer.
+			$icon = $item['icon'] ?? [];
+
+			// Build the node array — 8-field contract matching WpNavTree (D-02, CMEN-05).
 			$node = [
 				'id'           => $id,
 				'title'        => $title,
 				'url'          => $url,
 				'target'       => $target,
 				'classes'      => [],
+				'icon'         => $icon,
 				'has_children' => false,
 				'children'     => [],
 			];

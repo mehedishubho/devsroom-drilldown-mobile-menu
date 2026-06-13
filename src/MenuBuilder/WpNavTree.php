@@ -45,6 +45,7 @@ class WpNavTree {
 				'url'          => $item->url,
 				'target'       => $item->target ?? '',
 				'classes'      => is_array( $item->classes ) ? $item->classes : [],
+				'icon'         => [],
 				'has_children' => false,
 				'children'     => [],
 			];
