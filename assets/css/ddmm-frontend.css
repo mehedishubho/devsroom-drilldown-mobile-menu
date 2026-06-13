@@ -323,3 +323,89 @@
     position: absolute;
     word-wrap: normal !important;
 }
+
+/* ========================================================================
+   Phase 5: Animation System (ANIM-01..04)
+   Container class selects transform/opacity values; panel state classes
+   (--active / --exited-left / default off-stage-right) are stable.
+   JS (Plan 04) toggles panel classes; CSS drives all motion (GPU-composited).
+   ======================================================================== */
+
+/* Exited-left state — drilled past (Phase 5 NEW third state, D-05).
+   Default visual = Slide (translateX -100%, opacity 1). */
+.ddmm-panel.ddmm-panel--exited-left {
+    transform: translateX( -100% );
+    opacity: 1;
+}
+
+/* --------------------------------------------------------------------
+   Type: SLIDE (default) — D-03
+   Outgoing -> exited-left (translateX -100%, opacity 1)
+   Incoming <- off-stage-right -> active
+   -------------------------------------------------------------------- */
+.ddmm-widget.ddmm-anim--slide .ddmm-panel {
+    transform: translateX( 100% );
+    opacity: 1;
+}
+.ddmm-widget.ddmm-anim--slide .ddmm-panel.ddmm-panel--active {
+    transform: translateX( 0 );
+    opacity: 1;
+}
+.ddmm-widget.ddmm-anim--slide .ddmm-panel.ddmm-panel--exited-left {
+    transform: translateX( -100% );
+    opacity: 1;
+}
+
+/* --------------------------------------------------------------------
+   Type: FADE — D-03 cross-fade in place, no horizontal movement
+   -------------------------------------------------------------------- */
+.ddmm-widget.ddmm-anim--fade .ddmm-panel {
+    transform: translateX( 0 );
+    opacity: 0;
+    pointer-events: none;
+}
+.ddmm-widget.ddmm-anim--fade .ddmm-panel.ddmm-panel--active {
+    transform: translateX( 0 );
+    opacity: 1;
+    pointer-events: auto;
+}
+.ddmm-widget.ddmm-anim--fade .ddmm-panel.ddmm-panel--exited-left {
+    transform: translateX( 0 );
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------
+   Type: SCALE — D-03 child zooms in from 92%
+   -------------------------------------------------------------------- */
+.ddmm-widget.ddmm-anim--scale .ddmm-panel {
+    transform: translateX( 0 ) scale( 0.92 );
+    opacity: 0;
+    pointer-events: none;
+}
+.ddmm-widget.ddmm-anim--scale .ddmm-panel.ddmm-panel--active {
+    transform: translateX( 0 ) scale( 1 );
+    opacity: 1;
+    pointer-events: auto;
+}
+.ddmm-widget.ddmm-anim--scale .ddmm-panel.ddmm-panel--exited-left {
+    transform: translateX( 0 ) scale( 0.96 );
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------
+   Type: SLIDE + FADE — D-03 slide AND fade together
+   -------------------------------------------------------------------- */
+.ddmm-widget.ddmm-anim--slidefade .ddmm-panel {
+    transform: translateX( 100% );
+    opacity: 0;
+}
+.ddmm-widget.ddmm-anim--slidefade .ddmm-panel.ddmm-panel--active {
+    transform: translateX( 0 );
+    opacity: 1;
+}
+.ddmm-widget.ddmm-anim--slidefade .ddmm-panel.ddmm-panel--exited-left {
+    transform: translateX( -100% );
+    opacity: 0;
+}
