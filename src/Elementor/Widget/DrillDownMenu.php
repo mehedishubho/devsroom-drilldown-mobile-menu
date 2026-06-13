@@ -228,6 +228,79 @@ class DrillDownMenu extends Widget_Base {
             ]
         );
 
+        // --- Custom Menu Builder repeater (Phase 3, per D-04: condition on menu_source === 'custom') ---
+        $custom_repeater = new \Elementor\Repeater();
+
+        // Label field (per D-05 field order).
+        $custom_repeater->add_control(
+            'label',
+            [
+                'label'       => esc_html__( 'Label', 'devsroom-drilldown-mobile-menu' ),
+                'type'        => \Elementor\Controls_Manager::TEXT,
+                'default'     => '',
+                'placeholder' => esc_html__( 'Menu Item Label', 'devsroom-drilldown-mobile-menu' ),
+                'label_block' => true,
+            ]
+        );
+
+        // URL field.
+        $custom_repeater->add_control(
+            'url',
+            [
+                'label'   => esc_html__( 'Link', 'devsroom-drilldown-mobile-menu' ),
+                'type'    => \Elementor\Controls_Manager::URL,
+                'default' => [ 'url' => '' ],
+            ]
+        );
+
+        // Depth field (per D-01: NUMBER with min=0, step=1, default=0, no max cap).
+        $custom_repeater->add_control(
+            'depth',
+            [
+                'label'       => esc_html__( 'Depth', 'devsroom-drilldown-mobile-menu' ),
+                'type'        => \Elementor\Controls_Manager::NUMBER,
+                'min'         => 0,
+                'step'        => 1,
+                'default'     => 0,
+                'description' => esc_html__( '0 = root, 1 = child, 2 = grandchild', 'devsroom-drilldown-mobile-menu' ),
+            ]
+        );
+
+        // Icon field (per CMEN-05: Elementor Icons control).
+        $custom_repeater->add_control(
+            'icon',
+            [
+                'label'   => esc_html__( 'Icon', 'devsroom-drilldown-mobile-menu' ),
+                'type'    => \Elementor\Controls_Manager::ICONS,
+                'default' => [ 'value' => '', 'library' => '' ],
+            ]
+        );
+
+        // Open in New Tab field.
+        $custom_repeater->add_control(
+            'new_tab',
+            [
+                'label'   => esc_html__( 'Open in New Tab', 'devsroom-drilldown-mobile-menu' ),
+                'type'    => \Elementor\Controls_Manager::SWITCHER,
+                'default' => '',
+            ]
+        );
+
+        // Register the repeater as a widget control.
+        $this->add_control(
+            'custom_items',
+            [
+                'label'         => esc_html__( 'Menu Items', 'devsroom-drilldown-mobile-menu' ),
+                'type'          => \Elementor\Controls_Manager::REPEATER,
+                'fields'        => $custom_repeater->get_controls(),
+                'title_field'   => '{{{ depth > 0 ? "—".repeat( depth ) + " " : "" }}} {{{ label }}}',
+                'prevent_empty' => false,
+                'condition'     => [
+                    'menu_source' => 'custom',
+                ],
+            ]
+        );
+
         $this->end_controls_section();
     }
 
