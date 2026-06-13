@@ -97,7 +97,13 @@ Plans:
   3. Animation type (Slide, Fade, Scale, Slide+Fade), duration (100ms-2000ms), and easing are configurable and all use GPU-composited CSS only (transform, opacity)
   4. Optional search box filters menu items across all panels in real time
   5. Auto-open current page path drills down to and highlights the current page item; close-after-link-click and close-on-overlay-click toggles work as configured
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — DrillDownMenu.php: trigger hook attr (Pitfall 1), Animation/Search/Drawer-Settings Content Tab sections, render() config bridge (data-* + --ddmm-transition-* inline)
+- [ ] 05-02-PLAN.md — DrawerRenderer.php: render_search_box() method + conditional call in render() (sticky bar + input + results container with data-ddmm-search hooks)
+- [ ] 05-03-PLAN.md — ddmm-frontend.css: four animation-type class hooks (slide/fade/scale/slidefade), exited-left panel state, --ddmm-transition-easing consumption, hamburger to X morph, search box styles
+- [ ] 05-04-PLAN.md — ddmm-frontend.js: init() body + open/close/drill/back + search (index/filter/clear, DOM-API safe) + auto-open URL match + close behaviors
 
 ### Phase 6: Style Tab Controls
 **Goal**: Users can fully customize the appearance of every visual element -- trigger button, drawer, header, menu items (with state variants), and search box -- through Elementor's Style Tab
@@ -136,6 +142,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 2. WordPress Menu Source | 0/2 | Not started | - |
 | 3. Custom Menu Builder | 0/2 | Not started | - |
 | 4. Rendering Pipeline & Drawer HTML | 0/4 | Not started | - |
-| 5. Frontend Drill-Down JavaScript | 0/? | Not started | - |
+| 5. Frontend Drill-Down JavaScript | 0/4 | Planned | - |
 | 6. Style Tab Controls | 0/? | Not started | - |
 | 7. Accessibility & Compatibility Polish | 0/? | Not started | - |
