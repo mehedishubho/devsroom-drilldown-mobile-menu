@@ -355,7 +355,7 @@ class DrillDownMenu extends Widget_Base {
 
         $this->end_controls_section();
 
-        // --- Content Tab: Drawer Settings Section (Phase 4, Plan 02 / D-21, D-12) ---
+        // --- Content Tab: Drawer Settings Section (Phase 4, Plan 02 / D-21, D-12 + Phase 5 toggles D-15/D-16/D-17) ---
         $this->start_controls_section(
             'section_drawer_settings',
             [
@@ -382,6 +382,138 @@ class DrillDownMenu extends Widget_Base {
                 'label'   => esc_html__( 'Show Parent Name in Back Row', 'devsroom-drilldown-mobile-menu' ),
                 'type'    => \Elementor\Controls_Manager::SWITCHER,
                 'default' => 'yes',
+            ]
+        );
+
+        // Phase 5 / EXTR-03 / D-15: auto-open current page path — default ON ('yes').
+        $this->add_control(
+            'auto_open_current',
+            [
+                'label'   => esc_html__( 'Auto-Open Current Page Path', 'devsroom-drilldown-mobile-menu' ),
+                'type'    => \Elementor\Controls_Manager::SWITCHER,
+                'default' => 'yes',
+            ]
+        );
+
+        // Phase 5 / EXTR-04 / D-16: close drawer after a menu link is clicked — default ON ('yes').
+        $this->add_control(
+            'close_after_link',
+            [
+                'label'   => esc_html__( 'Close After Link Click', 'devsroom-drilldown-mobile-menu' ),
+                'type'    => \Elementor\Controls_Manager::SWITCHER,
+                'default' => 'yes',
+            ]
+        );
+
+        // Phase 5 / EXTR-05 / D-17: close drawer when the overlay is clicked — default ON ('yes').
+        $this->add_control(
+            'close_on_overlay',
+            [
+                'label'   => esc_html__( 'Close On Overlay Click', 'devsroom-drilldown-mobile-menu' ),
+                'type'    => \Elementor\Controls_Manager::SWITCHER,
+                'default' => 'yes',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // --- Content Tab: Animation Section (Phase 5, Plan 01 / ANIM-01, ANIM-02, ANIM-03, D-02) ---
+        $this->start_controls_section(
+            'section_animation',
+            [
+                'label'     => esc_html__( 'Animation', 'devsroom-drilldown-mobile-menu' ),
+                'tab'       => \Elementor\Controls_Manager::TAB_CONTENT,
+                'separator' => 'before',
+            ]
+        );
+
+        // ANIM-01 / D-02: animation type SELECT — default 'slide'.
+        $this->add_control(
+            'animation_type',
+            [
+                'label'   => esc_html__( 'Animation Type', 'devsroom-drilldown-mobile-menu' ),
+                'type'    => \Elementor\Controls_Manager::SELECT,
+                'default' => 'slide',
+                'options' => [
+                    'slide'     => esc_html__( 'Slide', 'devsroom-drilldown-mobile-menu' ),
+                    'fade'      => esc_html__( 'Fade', 'devsroom-drilldown-mobile-menu' ),
+                    'scale'     => esc_html__( 'Scale', 'devsroom-drilldown-mobile-menu' ),
+                    'slidefade' => esc_html__( 'Slide + Fade', 'devsroom-drilldown-mobile-menu' ),
+                ],
+            ]
+        );
+
+        // ANIM-02: animation duration SLIDER — 100-2000ms, default 300ms.
+        $this->add_control(
+            'animation_duration',
+            [
+                'label'      => esc_html__( 'Duration (ms)', 'devsroom-drilldown-mobile-menu' ),
+                'type'       => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px' ],
+                'range'      => [
+                    'px' => [
+                        'min'  => 100,
+                        'max'  => 2000,
+                        'step' => 10,
+                    ],
+                ],
+                'default'    => [
+                    'size' => 300,
+                    'unit' => 'px',
+                ],
+            ]
+        );
+
+        // ANIM-03: animation easing SELECT — default 'ease'.
+        $this->add_control(
+            'animation_easing',
+            [
+                'label'   => esc_html__( 'Easing', 'devsroom-drilldown-mobile-menu' ),
+                'type'    => \Elementor\Controls_Manager::SELECT,
+                'default' => 'ease',
+                'options' => [
+                    'ease'        => esc_html__( 'Ease', 'devsroom-drilldown-mobile-menu' ),
+                    'ease-in'     => esc_html__( 'Ease In', 'devsroom-drilldown-mobile-menu' ),
+                    'ease-out'    => esc_html__( 'Ease Out', 'devsroom-drilldown-mobile-menu' ),
+                    'ease-in-out' => esc_html__( 'Ease In Out', 'devsroom-drilldown-mobile-menu' ),
+                    'linear'      => esc_html__( 'Linear', 'devsroom-drilldown-mobile-menu' ),
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // --- Content Tab: Search Section (Phase 5, Plan 01 / EXTR-01, D-09 opt-in) ---
+        $this->start_controls_section(
+            'section_search',
+            [
+                'label'     => esc_html__( 'Search', 'devsroom-drilldown-mobile-menu' ),
+                'tab'       => \Elementor\Controls_Manager::TAB_CONTENT,
+                'separator' => 'before',
+            ]
+        );
+
+        // EXTR-01 / D-09: enable search — opt-in, default OFF ('').
+        $this->add_control(
+            'search_enabled',
+            [
+                'label'   => esc_html__( 'Enable Search', 'devsroom-drilldown-mobile-menu' ),
+                'type'    => \Elementor\Controls_Manager::SWITCHER,
+                'default' => '',
+            ]
+        );
+
+        // EXTR-01: search placeholder TEXT — shown only when search_enabled === 'yes'.
+        $this->add_control(
+            'search_placeholder',
+            [
+                'label'       => esc_html__( 'Placeholder', 'devsroom-drilldown-mobile-menu' ),
+                'type'        => \Elementor\Controls_Manager::TEXT,
+                'default'     => esc_html__( 'Search menu…', 'devsroom-drilldown-mobile-menu' ),
+                'label_block' => true,
+                'condition'   => [
+                    'search_enabled' => 'yes',
+                ],
             ]
         );
 
@@ -415,20 +547,41 @@ class DrillDownMenu extends Widget_Base {
      * Four variants: Hamburger Lines (3 CSS spans), Custom Icon, Text Only,
      * and Icon + Text with configurable position.
      *
+     * Phase 5: the .ddmm-widget wrapper now carries the config-bridge
+     * data-* attributes and inline --ddmm-transition-* CSS vars consumed
+     * by Plan 03 (CSS) and Plan 04 (JS). The trigger button carries the
+     * data-ddmm-trigger hook attribute (Pitfall 1 fix).
+     *
      * @return void
      */
     protected function render(): void {
         $settings     = $this->get_settings_for_display();
         $trigger_type = $settings['trigger_type'] ?? 'hamburger';
         $widget_id    = $this->get_id();
+
+        // Phase 5 config bridge: extract per-instance settings (D-04, D-15, D-16, D-17).
+        $anim_type     = $settings['animation_type'] ?? 'slide';
+        $duration_size = $settings['animation_duration']['size'] ?? 300;
+        $easing        = $settings['animation_easing'] ?? 'ease';
+        $auto_open     = ( $settings['auto_open_current'] ?? 'yes' ) === 'yes';
+        $close_link    = ( $settings['close_after_link'] ?? 'yes' ) === 'yes';
+        $close_overlay = ( $settings['close_on_overlay'] ?? 'yes' ) === 'yes';
         ?>
-        <div class="ddmm-widget" id="ddmm-widget-<?php echo esc_attr( $widget_id ); ?>" data-ddmm-init>
+        <div class="ddmm-widget ddmm-anim--<?php echo esc_attr( $anim_type ); ?>"
+            id="ddmm-widget-<?php echo esc_attr( $widget_id ); ?>"
+            data-ddmm-init
+            data-ddmm-anim="<?php echo esc_attr( $anim_type ); ?>"
+            data-ddmm-auto-open="<?php echo $auto_open ? 'true' : 'false'; ?>"
+            data-ddmm-close-link="<?php echo $close_link ? 'true' : 'false'; ?>"
+            data-ddmm-close-overlay="<?php echo $close_overlay ? 'true' : 'false'; ?>"
+            style="--ddmm-transition-duration:<?php echo (int) $duration_size; ?>ms;--ddmm-transition-easing:<?php echo esc_attr( $easing ); ?>">
         <div class="ddmm-trigger-wrapper">
             <button
                 type="button"
                 class="ddmm-trigger ddmm-trigger--<?php echo esc_attr( $trigger_type ); ?>"
                 aria-expanded="false"
                 aria-controls="ddmm-drawer-<?php echo esc_attr( $widget_id ); ?>"
+                data-ddmm-trigger
             >
                 <?php
                 switch ( $trigger_type ) {
