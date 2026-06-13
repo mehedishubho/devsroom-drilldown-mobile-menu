@@ -302,6 +302,90 @@ class DrillDownMenu extends Widget_Base {
         );
 
         $this->end_controls_section();
+
+        // --- Content Tab: Drawer Header Section (Phase 4, Plan 02 / DRAW-03, D-05, D-06, D-08) ---
+        $this->start_controls_section(
+            'section_drawer_header',
+            [
+                'label'     => esc_html__( 'Drawer Header', 'devsroom-drilldown-mobile-menu' ),
+                'tab'       => \Elementor\Controls_Manager::TAB_CONTENT,
+                'separator' => 'before',
+            ]
+        );
+
+        // D-05: Brand source SELECT — Site Logo (default) / Custom Image / Custom Text / None.
+        $this->add_control(
+            'brand_source',
+            [
+                'label'   => esc_html__( 'Brand', 'devsroom-drilldown-mobile-menu' ),
+                'type'    => \Elementor\Controls_Manager::SELECT,
+                'default' => 'site_logo',
+                'options' => [
+                    'site_logo'    => esc_html__( 'Site Logo', 'devsroom-drilldown-mobile-menu' ),
+                    'custom_image' => esc_html__( 'Custom Image', 'devsroom-drilldown-mobile-menu' ),
+                    'custom_text'  => esc_html__( 'Custom Text', 'devsroom-drilldown-mobile-menu' ),
+                    'none'         => esc_html__( 'None', 'devsroom-drilldown-mobile-menu' ),
+                ],
+            ]
+        );
+
+        // Custom Image — MEDIA control, conditional on brand_source === 'custom_image'.
+        $this->add_control(
+            'brand_image',
+            [
+                'label'     => esc_html__( 'Choose Image', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::MEDIA,
+                'default'   => [ 'url' => '' ],
+                'condition' => [ 'brand_source' => 'custom_image' ],
+            ]
+        );
+
+        // Custom Text — TEXT control, conditional on brand_source === 'custom_text'.
+        // Default = site name (sensible zero-config default).
+        $this->add_control(
+            'brand_text',
+            [
+                'label'       => esc_html__( 'Brand Text', 'devsroom-drilldown-mobile-menu' ),
+                'type'        => \Elementor\Controls_Manager::TEXT,
+                'default'     => get_bloginfo( 'name' ),
+                'placeholder' => esc_html__( 'Brand text', 'devsroom-drilldown-mobile-menu' ),
+                'condition'   => [ 'brand_source' => 'custom_text' ],
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // --- Content Tab: Drawer Settings Section (Phase 4, Plan 02 / D-21, D-12) ---
+        $this->start_controls_section(
+            'section_drawer_settings',
+            [
+                'label'     => esc_html__( 'Drawer Settings', 'devsroom-drilldown-mobile-menu' ),
+                'tab'       => \Elementor\Controls_Manager::TAB_CONTENT,
+                'separator' => 'before',
+            ]
+        );
+
+        // D-21: nav aria-label — configurable, default translatable "Mobile Menu".
+        $this->add_control(
+            'nav_label',
+            [
+                'label'   => esc_html__( 'Navigation Label', 'devsroom-drilldown-mobile-menu' ),
+                'type'    => \Elementor\Controls_Manager::TEXT,
+                'default' => esc_html__( 'Mobile Menu', 'devsroom-drilldown-mobile-menu' ),
+            ]
+        );
+
+        // D-12: show parent name in back row — default ON ('yes').
+        $this->add_control(
+            'show_back_title',
+            [
+                'label'   => esc_html__( 'Show Parent Name in Back Row', 'devsroom-drilldown-mobile-menu' ),
+                'type'    => \Elementor\Controls_Manager::SWITCHER,
+                'default' => 'yes',
+            ]
+        );
+
+        $this->end_controls_section();
     }
 
     /**
