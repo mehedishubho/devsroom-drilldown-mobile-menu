@@ -59,6 +59,11 @@ final class DrawerRenderer {
 		// 3. Header (always present per D-07).
 		self::render_header( $settings );
 
+		// Phase 5 D-10: search box (opt-in per D-09). Sits between header and nav (D-07 sticky bar).
+		if ( ! empty( $settings['search_enabled'] ) && 'yes' === $settings['search_enabled'] ) {
+			self::render_search_box( $settings, $widget_id );
+		}
+
 		// 4. Nav opening (A11Y-01, D-21: aria-label from settings; never use role=menu per Pitfall 4).
 		printf(
 			'<nav class="ddmm-nav" aria-label="%s"><div class="ddmm-panels">',
@@ -90,6 +95,39 @@ final class DrawerRenderer {
 			esc_attr__( 'Close menu', 'devsroom-drilldown-mobile-menu' )
 		);
 		echo '</div>';
+	}
+
+	/**
+	 * Render the search box (Phase 5 D-10).
+	 *
+	 * Emits a sticky bar with a search input and an empty results container.
+	 * The input carries data-ddmm-search-input; the results ul carries
+	 * data-ddmm-search-results. JS (ddmm-frontend.js) owns the live filtering.
+	 *
+	 * The container is EMPTY on render — JS populates results via DOM APIs
+	 * (document.createElement + textContent, never innerHTML with user input —
+	 * ASVS V5). The "No results" message is also emitted by JS so it is
+	 * translatable via the same text domain.
+	 *
+	 * @param array  $settings  Widget settings (search_placeholder).
+	 * @param string $widget_id Elementor widget ID (for unique input/results IDs).
+	 * @return void Echos HTML directly.
+	 */
+	private static function render_search_box( array $settings, string $widget_id ): void {
+		$placeholder = ! empty( $settings['search_placeholder'] )
+			? $settings['search_placeholder']
+			: __( 'Search menu…', 'devsroom-drilldown-mobile-menu' );
+
+		printf(
+			'<div class="ddmm-search" data-ddmm-search role="search">' .
+				'<label class="screen-reader-text" for="ddmm-search-input-%1$s">%2$s</label>' .
+				'<input type="search" id="ddmm-search-input-%1$s" class="ddmm-search__input" data-ddmm-search-input placeholder="%3$s" autocomplete="off" aria-controls="ddmm-search-results-%1$s">' .
+				'<ul class="ddmm-search__results" data-ddmm-search-results id="ddmm-search-results-%1$s" aria-live="polite" aria-relevant="additions"></ul>' .
+			'</div>',
+			esc_attr( $widget_id ),
+			esc_attr__( 'Search menu items', 'devsroom-drilldown-mobile-menu' ),
+			esc_attr( $placeholder )
+		);
 	}
 
 	/**
