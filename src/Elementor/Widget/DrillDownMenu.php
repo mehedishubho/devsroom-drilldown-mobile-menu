@@ -422,6 +422,7 @@ class DrillDownMenu extends Widget_Base {
         $trigger_type = $settings['trigger_type'] ?? 'hamburger';
         $widget_id    = $this->get_id();
         ?>
+        <div class="ddmm-widget" id="ddmm-widget-<?php echo esc_attr( $widget_id ); ?>" data-ddmm-init>
         <div class="ddmm-trigger-wrapper">
             <button
                 type="button"
@@ -494,10 +495,27 @@ class DrillDownMenu extends Widget_Base {
                     : esc_html__( 'Select a menu to display', 'devsroom-drilldown-mobile-menu' );
                 echo '<div class="ddmm-editor-hint">' . $hint . '</div>';
             }
+            ?>
+            </div><!-- /.ddmm-widget (empty-state early close) -->
+            <?php
             return; // Zero frontend HTML for the menu portion.
         }
 
-        // Phase 4 will render the drawer + panels from $tree here.
-        // Phase 2 does NOT output the tree as HTML — that is Phase 4's job (D-03).
+        // Phase 4: render the drawer / editor preview from $tree (D-03, D-16, D-18, D-20).
+        $is_editor = \Elementor\Plugin::$instance->editor->is_edit_mode();
+
+        if ( $is_editor ) {
+            // D-18: editor-only static root-panel preview (inline, not off-canvas).
+            // Sub-panels omitted. render_editor_preview() is owned and fully implemented in Plan 01.
+            echo '<div class="ddmm-editor-preview">';
+            \Devsroom_DDMM\Rendering\DrawerRenderer::render_editor_preview( $tree, $settings );
+            echo '</div>';
+        } else {
+            // D-20: published frontend — full overlay + off-canvas drawer + panels always in DOM.
+            \Devsroom_DDMM\Rendering\DrawerRenderer::render( $tree, $settings, $widget_id );
+        }
+        ?>
+        </div><!-- /.ddmm-widget -->
+        <?php
     }
 }
