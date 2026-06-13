@@ -82,10 +82,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — DrawerRenderer stateless recursive tree-to-HTML renderer (panels, items, back-rows, header, icons, ARIA, escaping, ID threading)
-- [ ] 04-02-PLAN.md — Elementor widget integration: Drawer Header + Drawer Settings controls, render() call with .ddmm-widget wrapper and editor/frontend branching
-- [ ] 04-03-PLAN.md — Base layout CSS for off-canvas drawer, overlay, panel stacking, header, menu, chevron ::after, --ddmm-* vars
-- [ ] 04-04-PLAN.md — JS bootstrap skeleton (IIFE class, dual-path init, data-ddmm-init guard, container scope, no interactions)
+- [x] 04-01-PLAN.md — DrawerRenderer stateless recursive tree-to-HTML renderer (panels, items, back-rows, header, icons, ARIA, escaping, ID threading)
+- [x] 04-02-PLAN.md — Elementor widget integration: Drawer Header + Drawer Settings controls, render() call with .ddmm-widget wrapper and editor/frontend branching
+- [x] 04-03-PLAN.md — Base layout CSS for off-canvas drawer, overlay, panel stacking, header, menu, chevron ::after, --ddmm-* vars
+- [x] 04-04-PLAN.md — JS bootstrap skeleton (IIFE class, dual-path init, data-ddmm-init guard, container scope, no interactions)
 
 ### Phase 5: Frontend Drill-Down JavaScript
 **Goal**: The drill-down menu works as an interactive experience -- drawer opens/closes, panels slide in and out with configurable animations, back navigation works at any depth, and extra features (search, close behaviors, auto-open) function correctly
