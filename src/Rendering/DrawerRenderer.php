@@ -300,7 +300,13 @@ final class DrawerRenderer {
 	}
 
 	/**
-	 * Render the back row for a child panel (back button + optional parent title).
+	 * Render the back row for a child panel (back button + always-present parent title).
+	 *
+	 * The title span is ALWAYS emitted so render_panel()'s aria-labelledby reference
+	 * resolves in every configuration (WR-01 fix). The span class switches between
+	 * visible ddmm-back__title (show_back_title === 'yes') and visually-hidden
+	 * ddmm-back__title screen-reader-text (toggle OFF) so screen readers still
+	 * announce the parent name while honoring the user's visible-hide choice.
 	 *
 	 * @param string $parent_title      Parent item title for the title span.
 	 * @param string $ancestor_panel_id Ancestor panel id (data-back-target target).
@@ -318,15 +324,22 @@ final class DrawerRenderer {
 			esc_html__( 'Back', 'devsroom-drilldown-mobile-menu' )
 		);
 
-		// D-12: show parent name title, default ON.
+		// D-12 / WR-01 fix: ALWAYS emit the title span so render_panel()'s aria-labelledby
+		// reference resolves in every configuration. The class switches between visible
+		// (show_back_title === 'yes') and WordPress screen-reader-text (toggle OFF) so
+		// screen readers still announce the parent name when the panel opens, while the
+		// visible title honors the user's toggle choice.
 		$show_back_title = $settings['show_back_title'] ?? 'yes';
-		if ( 'yes' === $show_back_title ) {
-			printf(
-				'<span class="ddmm-back__title" id="%s">%s</span>',
-				esc_attr( $title_id ),
-				esc_html( $parent_title )
-			);
-		}
+		$title_class     = ( 'yes' === $show_back_title )
+			? 'ddmm-back__title'
+			: 'ddmm-back__title screen-reader-text';
+
+		printf(
+			'<span class="%s" id="%s">%s</span>',
+			esc_attr( $title_class ),
+			esc_attr( $title_id ),
+			esc_html( $parent_title )
+		);
 
 		echo '</div>';
 	}
