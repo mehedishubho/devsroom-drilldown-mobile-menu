@@ -63,7 +63,11 @@ Plans:
   2. Items appear with indent dashes in the Elementor editor showing visual hierarchy (root, -- Child, ---- Grandchild)
   3. Flat repeater data with depth values is correctly converted to a nested tree using the stack-based algorithm
   4. Icons selected via Elementor Icons picker render correctly in menu output
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Stack-based CustomTree builder (src/MenuBuilder/CustomTree.php) with 7-field node contract
+- [ ] 03-02-PLAN.md — Repeater controls in widget and render() integration with source-aware empty state
 
 ### Phase 4: Rendering Pipeline & Drawer HTML
 **Goal**: The PHP rendering pipeline outputs complete drawer HTML with nested panels, data attributes for ID-based navigation, header area, and correct ARIA markup
@@ -124,7 +128,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 |-------|----------------|--------|-----------|
 | 1. Plugin Foundation & Widget Shell | 2/2 | Complete    | 2026-06-12 |
 | 2. WordPress Menu Source | 0/2 | Not started | - |
-| 3. Custom Menu Builder | 0/? | Not started | - |
+| 3. Custom Menu Builder | 0/2 | Not started | - |
 | 4. Rendering Pipeline & Drawer HTML | 0/? | Not started | - |
 | 5. Frontend Drill-Down JavaScript | 0/? | Not started | - |
 | 6. Style Tab Controls | 0/? | Not started | - |
