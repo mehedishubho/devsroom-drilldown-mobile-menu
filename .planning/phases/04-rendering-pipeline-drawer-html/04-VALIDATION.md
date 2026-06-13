@@ -47,6 +47,7 @@ created: 2026-06-13
 | 04-01-06 | 01 | 1 | A11Y-01 / D-21 | — | nav aria-label, no role=menu | grep ± | `grep -c "aria-label" src/Rendering/DrawerRenderer.php` ≥1 AND `grep -rc 'role="menu"' src/ assets/` = 0 | ❌ W0 | ⬜ pending |
 | 04-01-07 | 01 | 1 | A11Y-02 / D-23 | — | chevron aria-expanded+controls | static grep | `grep -cE "aria-expanded|aria-controls" src/Rendering/DrawerRenderer.php` ≥2 | ❌ W0 | ⬜ pending |
 | 04-01-08 | 01 | 1 | A11Y-03 | — | drawer id matches trigger aria-controls | static grep | `grep -c "ddmm-drawer-" src/Rendering/DrawerRenderer.php` ≥1 | ❌ W0 | ⬜ pending |
+| 04-01-09 | 01 | 2 | DRAW-06 / D-09 | T-04-id | single-source-of-truth ID threading: `$child_panel_id` declared once via `uniqid()` and reused for BOTH chevron `data-target`/`aria-controls` AND the recursive `render_panel()` call (prevents Pitfall 1 ID re-derivation) | static grep + manual | `grep -c "\$child_panel_id" src/Rendering/DrawerRenderer.php` ≥3 (1 declaration + 1 chevron printf + 1 recursive render_panel call) | ❌ W0 | ⬜ pending |
 | 04-02-01 | 02 | 1 | DRAW-03 / D-05 | T-04-img | brand source SELECT (4 options) | static grep | `grep -c "brand_source" src/Elementor/Widget/DrillDownMenu.php` ≥1 | ✅ exists | ⬜ pending |
 | 04-02-02 | 02 | 1 | DRAW-08 / D-12 | — | back-title toggle default ON | static grep | `grep -c "show_back_title" src/Elementor/Widget/DrillDownMenu.php` ≥1 | ✅ exists | ⬜ pending |
 | 04-03-01 | 03 | 1 | DRAW-01 | — | off-canvas CSS | static grep | `grep -c "translateX(-100%)" assets/css/ddmm-frontend.css` ≥1 | ✅ exists | ⬜ pending |
@@ -72,7 +73,7 @@ created: 2026-06-13
 
 | Behavior | Requirement | Why Manual | Test Instructions |
 |----------|-------------|------------|-------------------|
-| `data-target` ↔ `data-panel-id` match at runtime | DRAW-06 | Requires rendered DOM (WP + Elementor + configured widget) | Configure a 3-level menu (WP or custom), render on frontend, open DevTools: every parent chevron's `data-target` value appears exactly once as a child panel's `data-panel-id`. |
+| `data-target` ↔ `data-panel-id` match at runtime | DRAW-06 | Runtime confirmation of the static threading grep (04-01-09). Requires rendered DOM (WP + Elementor + configured widget) | **Static gate (04-01-09):** `grep -c "\$child_panel_id" src/Rendering/DrawerRenderer.php` ≥ 3 — proves one variable drives both the chevron `data-target`/`aria-controls` and the recursive `render_panel()` call. **Manual runtime confirmation:** Configure a 3-level menu (WP or custom), render on frontend, open DevTools: every parent chevron's `data-target` value appears exactly once as a child panel's `data-panel-id`. |
 | Unlimited-depth recursion | DRAW-09 | Requires multi-level configured menu | Configure a 4-level custom menu, render, verify 4 nested panels each with a working back button (back-target points to correct ancestor). |
 | Editor preview block (static root `<ul>`) | D-18 | Elementor editor iframe | In Elementor editor, confirm trigger + inline root panel items render (icons + chevrons); sub-panels absent; block never appears on published frontend. |
 | Drawer off-canvas + overlay on frontend | DRAW-01/02 | Visual | Published page: drawer is off-screen left, overlay hidden, until Phase 5 opens it. `aria-hidden="true"` on drawer. |
