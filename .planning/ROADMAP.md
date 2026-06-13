@@ -66,8 +66,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Stack-based CustomTree builder (src/MenuBuilder/CustomTree.php) with 7-field node contract
-- [ ] 03-02-PLAN.md — Repeater controls in widget and render() integration with source-aware empty state
+- [x] 03-01-PLAN.md — Stack-based CustomTree builder (src/MenuBuilder/CustomTree.php) with 7-field node contract
+- [x] 03-02-PLAN.md — Repeater controls in widget and render() integration with source-aware empty state
 
 ### Phase 4: Rendering Pipeline & Drawer HTML
 **Goal**: The PHP rendering pipeline outputs complete drawer HTML with nested panels, data attributes for ID-based navigation, header area, and correct ARIA markup
