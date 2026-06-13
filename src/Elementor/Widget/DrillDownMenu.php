@@ -398,14 +398,17 @@ class DrillDownMenu extends Widget_Base {
 
         if ( 'wp_menu' === $menu_source && ! empty( $settings['wp_menu_id'] ) ) {
             $tree = \Devsroom_DDMM\MenuBuilder\WpNavTree::build( $settings['wp_menu_id'] );
+        } elseif ( 'custom' === $menu_source && ! empty( $settings['custom_items'] ) ) {
+            $tree = \Devsroom_DDMM\MenuBuilder\CustomTree::build( $settings['custom_items'] );
         }
 
         // D-05: Empty state — zero frontend HTML, editor-only hint.
         if ( empty( $tree ) ) {
             if ( \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
-                echo '<div class="ddmm-editor-hint">' .
-                     esc_html__( 'Select a menu to display', 'devsroom-drilldown-mobile-menu' ) .
-                     '</div>';
+                $hint = 'custom' === $menu_source
+                    ? esc_html__( 'Add menu items to display', 'devsroom-drilldown-mobile-menu' )
+                    : esc_html__( 'Select a menu to display', 'devsroom-drilldown-mobile-menu' );
+                echo '<div class="ddmm-editor-hint">' . $hint . '</div>';
             }
             return; // Zero frontend HTML for the menu portion.
         }
