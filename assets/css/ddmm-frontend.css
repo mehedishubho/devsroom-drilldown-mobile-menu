@@ -409,3 +409,106 @@
     transform: translateX( -100% );
     opacity: 0;
 }
+
+/* ========================================================================
+   Phase 5: Hamburger -> X Morph (Phase 1 D-10 anticipation, executed here)
+   Plan 04 JS toggles .ddmm-trigger--active on the trigger <button>.
+   line 1: move down by (line-height + gap) then rotate 45deg
+   line 2: fade out
+   line 3: move up by (line-height + gap) then rotate -45deg
+   ======================================================================== */
+.ddmm-trigger.ddmm-trigger--active .ddmm-hamburger__line:nth-child( 1 ) {
+    transform: translateY( calc( var( --ddmm-hamburger-line-height ) + var( --ddmm-hamburger-line-gap ) ) ) rotate( 45deg );
+}
+.ddmm-trigger.ddmm-trigger--active .ddmm-hamburger__line:nth-child( 2 ) {
+    opacity: 0;
+}
+.ddmm-trigger.ddmm-trigger--active .ddmm-hamburger__line:nth-child( 3 ) {
+    transform: translateY( calc( -1 * ( var( --ddmm-hamburger-line-height ) + var( --ddmm-hamburger-line-gap ) ) ) ) rotate( -45deg );
+}
+
+/* ========================================================================
+   Phase 5: Search Box (EXTR-01/02, D-06/D-07)
+   Sticky bar between header and nav (flex child of .ddmm-drawer).
+   Plan 02 emits the markup; Plan 04 JS toggles .ddmm-search-active on
+   .ddmm-widget to replace the drill view with the results list.
+   ======================================================================== */
+.ddmm-search {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    border-bottom: 1px solid var( --ddmm-menu-border-color );
+    background: var( --ddmm-drawer-bg );
+}
+.ddmm-search__input {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1px solid var( --ddmm-menu-border-color );
+    border-radius: 4px;
+    background: #fff;
+    color: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.ddmm-search__input:focus {
+    outline: 2px solid var( --ddmm-trigger-color );
+    outline-offset: 1px;
+}
+.ddmm-search__results {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: calc( 100vh - var( --ddmm-header-height ) - 80px );
+    overflow-y: auto;
+}
+.ddmm-search__result-item {
+    border-bottom: 1px solid var( --ddmm-menu-border-color );
+}
+.ddmm-search__result {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 16px;
+    text-decoration: none;
+    color: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+.ddmm-search__result-title {
+    font-weight: 500;
+}
+.ddmm-search__result-breadcrumb {
+    font-size: 12px;
+    opacity: 0.65;
+    margin-top: 2px;
+}
+.ddmm-search__no-results {
+    padding: 16px;
+    color: #666;
+    font-style: italic;
+}
+
+/* D-06: when search is active, hide the drill-view panels; show results instead.
+   The .ddmm-search__results ul lives INSIDE .ddmm-search (between header and nav),
+   so hiding .ddmm-panels does not hide the results. */
+.ddmm-widget.ddmm-search-active .ddmm-panels {
+    display: none;
+}
+.ddmm-widget.ddmm-search-active .ddmm-search__results {
+    /* Results expand to fill the drawer body when panels are hidden.
+       The .ddmm-search is a flex child; .ddmm-search__results stretches with content. */
+    flex: 1 1 auto;
+}
+
+/* ========================================================================
+   Phase 5: Auto-open current-item / ancestor markers (EXTR-03, D-13)
+   Plan 04 JS adds these classes to the matching <li> + ancestor <li>s.
+   Phase 6 Style Tab will add full Active styling; Phase 5 ships a visible
+   marker so auto-open is perceptible before Phase 6.
+   ======================================================================== */
+.ddmm-menu__item.ddmm-current-item > a {
+    font-weight: 600;
+    color: var( --ddmm-trigger-color );
+}
+.ddmm-menu__item.ddmm-current-ancestor > a {
+    font-weight: 500;
+}
