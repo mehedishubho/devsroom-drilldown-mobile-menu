@@ -275,12 +275,191 @@
             }
         }
 
-        // Placeholder stubs — implemented in Task 2 (search) and Task 3 (auto-open).
-        // They exist here so open()/close() can call them without undefined errors.
+        // autoOpenCurrentPath implemented in Task 3.
         autoOpenCurrentPath() { /* Task 3 */ }
-        buildSearchIndex() { /* Task 2 */ }
-        wireSearch() { /* Task 2 */ }
-        clearSearch() { /* Task 2 */ }
+
+        /**
+         * D-06, D-08: Build flat index of all menu items with breadcrumbs.
+         * Walks .ddmm-menu a[href] once on init. Breadcrumb via back-target
+         * ancestor walk. All values stored as plain strings — safe to render later.
+         */
+        buildSearchIndex() {
+            this.searchIndex = [];
+            const seen = new Set();
+            const links = this.container.querySelectorAll( '.ddmm-menu a[href]' );
+            links.forEach( ( link ) => {
+                const href = link.getAttribute( 'href' );
+                if ( ! href || href === '#' || seen.has( href ) ) return;
+                seen.add( href );
+                const title = ( link.textContent || '' ).trim();
+                if ( ! title ) return;
+
+                // Breadcrumb: walk ancestor panels via back-target, collect back-row titles.
+                const breadcrumb = [];
+                let panel = link.closest( '.ddmm-panel' );
+                while ( panel ) {
+                    const titleEl = panel.querySelector( '.ddmm-back__title' );
+                    if ( titleEl ) {
+                        const t = ( titleEl.textContent || '' ).trim();
+                        if ( t ) breadcrumb.unshift( t );
+                    }
+                    const backBtn = panel.querySelector( '[data-back-target]' );
+                    const parentId = backBtn ? backBtn.dataset.backTarget : null;
+                    panel = parentId
+                        ? this.container.querySelector( '[data-panel-id="' + parentId + '"]' )
+                        : null;
+                }
+                breadcrumb.push( title );
+
+                // Drill target: if this item's <li> has a chevron child, that's the drill panel.
+                const li = link.closest( '.ddmm-menu__item' );
+                const chevron = li ? li.querySelector( '[data-target]' ) : null;
+
+                this.searchIndex.push( {
+                    title: title,
+                    breadcrumb: breadcrumb.join( ' › ' ), // ›
+                    href: href,
+                    target: link.target,
+                    drillPanelId: chevron ? chevron.dataset.target : null,
+                } );
+            } );
+        }
+
+        /**
+         * Wire search input: 200ms-debounced filter (Anti-Pattern 4), Esc clears,
+         * delegated result-click (parent drills, leaf navigates + closes per D-16).
+         */
+        wireSearch() {
+            const input = this.container.querySelector( '[data-ddmm-search-input]' );
+            if ( input ) {
+                // Debounce wraps the FILTER only — input value updates immediately (Anti-Pattern 4).
+                input.addEventListener( 'input', ( e ) => {
+                    clearTimeout( this.searchTimer );
+                    const value = e.target.value;
+                    this.searchTimer = setTimeout( () => {
+                        this.filterSearch( value );
+                    }, 200 ); // Claude's Discretion (A3): 200ms.
+                } );
+                // Esc clears (D-06: clearing returns to drill view).
+                input.addEventListener( 'keydown', ( e ) => {
+                    if ( e.key === 'Escape' ) {
+                        input.value = '';
+                        this.clearSearch();
+                        input.blur();
+                    }
+                } );
+            }
+
+            // Delegated click on results: parent drills (D-08), leaf navigates (+ closes per D-16).
+            const resultsContainer = this.container.querySelector( '[data-ddmm-search-results]' );
+            if ( resultsContainer ) {
+                resultsContainer.addEventListener( 'click', ( e ) => {
+                    const drillAnchor = e.target.closest( '[data-ddmm-search-drill]' );
+                    if ( drillAnchor ) {
+                        e.preventDefault();
+                        this.clearSearch();
+                        this.drill( drillAnchor.dataset.ddmmSearchDrill );
+                        return;
+                    }
+                    const link = e.target.closest( 'a[href]' );
+                    if ( link && this.config.closeLink && link.target !== '_blank' ) {
+                        this.close();
+                    }
+                } );
+            }
+        }
+
+        /**
+         * Filter the search index by case-insensitive title substring (D-08) and
+         * render matches via DOM APIs (ASVS V5 — zero string-concat HTML).
+         * @param {string} rawQuery The current input value.
+         */
+        filterSearch( rawQuery ) {
+            const results = this.container.querySelector( '[data-ddmm-search-results]' );
+            if ( ! results ) return;
+            const query = ( rawQuery || '' ).trim().toLowerCase();
+
+            if ( ! query ) {
+                this.clearSearch();
+                return;
+            }
+
+            // D-06: enter search mode — hide drill view, show results.
+            this.container.classList.add( 'ddmm-search-active' );
+
+            // Clear previous results (safe — no user input here).
+            while ( results.firstChild ) {
+                results.removeChild( results.firstChild );
+            }
+
+            // Case-insensitive title substring match (D-08).
+            const matches = this.searchIndex.filter(
+                ( item ) => item.title.toLowerCase().indexOf( query ) >= 0
+            );
+
+            if ( ! matches.length ) {
+                // D-11: "No results" message. textContent — NEVER string-concat HTML.
+                const li = document.createElement( 'li' );
+                li.className = 'ddmm-search__no-results';
+                li.textContent = 'No results'; // Phase 7 i18n packaging; text domain ready.
+                results.appendChild( li );
+                return;
+            }
+
+            // Build result items via DOM APIs. textContent for title/breadcrumb (ASVS V5).
+            matches.forEach( ( item ) => {
+                const li = document.createElement( 'li' );
+                li.className = 'ddmm-search__result-item';
+
+                const a = document.createElement( 'a' );
+                a.className = 'ddmm-search__result';
+                if ( item.drillPanelId ) {
+                    // Parent result: clicking drills into the panel (D-08). Do NOT navigate.
+                    a.setAttribute( 'data-ddmm-search-drill', item.drillPanelId );
+                    a.setAttribute( 'href', '#' );
+                    // Prevent the close-after-link listener from firing on the # href.
+                    a.setAttribute( 'role', 'button' );
+                } else {
+                    // Leaf result: navigate.
+                    a.setAttribute( 'href', item.href );
+                    if ( item.target === '_blank' ) {
+                        a.setAttribute( 'target', '_blank' );
+                    }
+                }
+
+                const titleSpan = document.createElement( 'span' );
+                titleSpan.className = 'ddmm-search__result-title';
+                titleSpan.textContent = item.title; // safe — textContent, not string concat
+
+                const crumbSpan = document.createElement( 'span' );
+                crumbSpan.className = 'ddmm-search__result-breadcrumb';
+                crumbSpan.textContent = item.breadcrumb; // safe
+
+                a.appendChild( titleSpan );
+                a.appendChild( crumbSpan );
+                li.appendChild( a );
+                results.appendChild( li );
+            } );
+        }
+
+        /**
+         * Clear search state: exit search mode (removes ddmm-search-active),
+         * empty results, clear input. Called on close(), empty query, Esc, and
+         * parent-result drill (which exits search mode before calling drill()).
+         */
+        clearSearch() {
+            this.container.classList.remove( 'ddmm-search-active' );
+            const results = this.container.querySelector( '[data-ddmm-search-results]' );
+            if ( results ) {
+                while ( results.firstChild ) {
+                    results.removeChild( results.firstChild );
+                }
+            }
+            const input = this.container.querySelector( '[data-ddmm-search-input]' );
+            if ( input ) {
+                input.value = '';
+            }
+        }
     }
 
     // Single shared instance — stateless in Phase 4 (init just guards + marks).
