@@ -51,8 +51,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Content Tab Menu section (source toggle, WP menu dropdown) and render() empty-state hint integration
-- [ ] 02-02-PLAN.md — Pure-PHP 3-pass ID-based WpNavTree tree builder (src/MenuBuilder/WpNavTree.php)
+- [x] 02-01-PLAN.md — Content Tab Menu section (source toggle, WP menu dropdown) and render() empty-state hint integration
+- [x] 02-02-PLAN.md — Pure-PHP 3-pass ID-based WpNavTree tree builder (src/MenuBuilder/WpNavTree.php)
 
 ### Phase 3: Custom Menu Builder
 **Goal**: Users can build a complete menu from scratch using a flat repeater with a depth field that produces nested panel output
