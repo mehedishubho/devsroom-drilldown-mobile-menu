@@ -275,8 +275,111 @@
             }
         }
 
-        // autoOpenCurrentPath implemented in Task 3.
-        autoOpenCurrentPath() { /* Task 3 */ }
+        /**
+         * D-14: URL normalization. Native WHATWG URL API — no regex, no library.
+         * Strips hash, trims trailing slash (except root), lowercases host,
+         * sorts query params for order-insensitive comparison.
+         * @param {string} raw URL to normalize (item href or window.location.href).
+         * @returns {string|null} Normalized "host/path?query" string, or null.
+         */
+        normalizeUrl( raw ) {
+            if ( ! raw || raw === '#' ) return null;
+            try {
+                const u = new URL( raw, window.location.origin );
+                let path = u.pathname.replace( /\/+$/, '' ) || '/'; // Pitfall 8: root stays '/'
+                if ( u.search ) {
+                    const params = new URLSearchParams( u.search );
+                    const sorted = Array.from( params.keys() ).sort().map(
+                        ( k ) => k + '=' + params.get( k )
+                    ).join( '&' );
+                    if ( sorted ) path += '?' + sorted;
+                }
+                return u.host.toLowerCase() + path;
+            } catch ( e ) {
+                return null;
+            }
+        }
+
+        /**
+         * D-14: WP 'current-menu-item' class is a hint (WP source only, server-injected).
+         * URL match is the authoritative fallback (works for both menu sources).
+         * @returns {HTMLAnchorElement|null} The matching anchor, or null if not in menu.
+         */
+        findCurrentPageItem() {
+            const current = this.normalizeUrl( window.location.href );
+            if ( ! current ) return null;
+            const links = this.container.querySelectorAll( '.ddmm-menu a[href]' );
+            for ( const link of links ) {
+                // Hint short-circuit: WP Walker injects current-menu-item on the <li>.
+                if ( link.closest( '.current-menu-item' ) ) {
+                    return link;
+                }
+                // URL match authoritative.
+                if ( this.normalizeUrl( link.href ) === current ) {
+                    return link;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * D-12, D-13: on open, drill to current item's panel instantly + mark item + ancestors.
+         * Instant-drill via 0ms --ddmm-transition-duration override, restored via double-rAF.
+         */
+        autoOpenCurrentPath() {
+            const item = this.findCurrentPageItem();
+            if ( ! item ) return; // D-14: not in menu -> do nothing.
+
+            // D-13: mark current item + ancestor <li>s.
+            const itemLi = item.closest( '.ddmm-menu__item' );
+            if ( itemLi ) {
+                itemLi.classList.add( 'ddmm-current-item' );
+            }
+            // Mark all ancestor <li>s across the panel chain; collect panels root-first.
+            const ancestorPanels = [];
+            let cursor = item.closest( '.ddmm-panel' );
+            while ( cursor ) {
+                const ancestorLis = cursor.querySelectorAll( '.ddmm-menu__item' );
+                ancestorLis.forEach( ( li ) => {
+                    if ( li.contains( item ) && li !== itemLi ) {
+                        li.classList.add( 'ddmm-current-ancestor' );
+                    }
+                } );
+                ancestorPanels.unshift( cursor ); // root-first order
+                const backBtn = cursor.querySelector( '[data-back-target]' );
+                const parentId = backBtn ? backBtn.dataset.backTarget : null;
+                cursor = parentId
+                    ? this.container.querySelector( '[data-panel-id="' + parentId + '"]' )
+                    : null;
+            }
+
+            // If only the root panel is in the chain, no drill needed.
+            if ( ancestorPanels.length <= 1 ) return;
+
+            // Instant-drill: temporarily set duration to 0, restore after double-rAF.
+            // The double-rAF ensures the browser commits the panel state change at 0ms
+            // BEFORE restoring the configured duration (prevents a flash of animation).
+            this.container.style.setProperty( '--ddmm-transition-duration', '0ms' );
+
+            for ( let i = 1; i < ancestorPanels.length; i++ ) {
+                const prev = ancestorPanels[ i - 1 ];
+                const curr = ancestorPanels[ i ];
+                prev.classList.remove( 'ddmm-panel--active' );
+                prev.classList.add( 'ddmm-panel--exited-left' );
+                prev.setAttribute( 'aria-hidden', 'true' );
+                curr.classList.remove( 'ddmm-panel--exited-left' ); // safety
+                curr.classList.add( 'ddmm-panel--active' );
+                curr.setAttribute( 'aria-hidden', 'false' );
+                this.history.push( prev.dataset.panelId );
+            }
+
+            // Restore configured duration on the second rAF (Open Question 2 recommendation).
+            requestAnimationFrame( () => {
+                requestAnimationFrame( () => {
+                    this.container.style.removeProperty( '--ddmm-transition-duration' );
+                } );
+            } );
+        }
 
         /**
          * D-06, D-08: Build flat index of all menu items with breadcrumbs.
