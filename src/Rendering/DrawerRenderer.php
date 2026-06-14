@@ -528,7 +528,12 @@ final class DrawerRenderer {
 			// is never empty even when the user hasn't configured a menu yet.
 			echo '<ul class="ddmm-menu">';
 			echo '<li class="ddmm-menu__item ddmm-current-item"><a href="#">' . esc_html__( 'Sample Current Page', 'devsroom-drilldown-mobile-menu' ) . '</a></li>';
-			echo '<li class="ddmm-menu__item"><a href="#">' . esc_html__( 'Sample Menu Item', 'devsroom-drilldown-mobile-menu' ) . '<button type="button" class="ddmm-chevron" aria-label="' . esc_attr__( 'Show submenu', 'devsroom-drilldown-mobile-menu' ) . '"></button></a></li>';
+			// WR-01 fix: chevron emitted as a SIBLING of <a> inside the <li> (NOT nested inside the anchor).
+			// Matches the populated-tree branch in render_editor_item() — button type, ddmm-chevron class,
+			// aria-label string, esc_attr__() escaping. Nesting the button inside <a> was invalid HTML5
+			// (interactive content inside an anchor) and broke .ddmm-chevron { margin-left: auto }
+			// which requires the button to be a flex child of .ddmm-menu__item.
+			echo '<li class="ddmm-menu__item"><a href="#">' . esc_html__( 'Sample Menu Item', 'devsroom-drilldown-mobile-menu' ) . '</a><button type="button" class="ddmm-chevron" aria-label="' . esc_attr__( 'Show submenu', 'devsroom-drilldown-mobile-menu' ) . '"></button></li>';
 			echo '</ul>';
 		}
 
