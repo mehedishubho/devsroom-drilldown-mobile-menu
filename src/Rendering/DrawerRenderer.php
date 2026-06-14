@@ -64,6 +64,15 @@ final class DrawerRenderer {
 			self::render_search_box( $settings, $widget_id );
 		}
 
+		// Phase 7 D-08: empty aria-live panel-context region. JS (ddmm-frontend.js)
+		// writes the active panel's back-row parent name (or nav label for root)
+		// via textContent on open/drill/back. Emitted EMPTY per Pitfall 7 so SRs
+		// register it as a live region before the first write. Reuses the existing
+		// .screen-reader-text class (ddmm-frontend.css:415) — no new helper class.
+		printf(
+			'<div class="screen-reader-text" data-ddmm-sr-status aria-live="polite" aria-atomic="true"></div>'
+		);
+
 		// 4. Nav opening (A11Y-01, D-21: aria-label from settings; never use role=menu per Pitfall 4).
 		printf(
 			'<nav class="ddmm-nav" aria-label="%s"><div class="ddmm-panels">',
