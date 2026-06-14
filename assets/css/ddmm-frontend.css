@@ -13,6 +13,12 @@
     --ddmm-trigger-border-radius: 0;
     --ddmm-trigger-cursor: pointer;
     --ddmm-trigger-font-size: 16px;
+    /* Phase 7 D-10: themeable focus ring. Defaults to the trigger color so the
+       ring is visible on both light and dark drawer backgrounds automatically
+       (the user-configured --ddmm-trigger-color flips with their theme). */
+    --ddmm-focus-ring-color: var( --ddmm-trigger-color );
+    --ddmm-focus-ring-width: 2px;
+    --ddmm-focus-ring-offset: 2px;
     --ddmm-hamburger-width: 28px;
     --ddmm-hamburger-height: 20px;
     --ddmm-hamburger-line-height: 2px;
@@ -90,9 +96,17 @@
     color: var(--ddmm-trigger-hover-color);
 }
 
-.ddmm-trigger:focus-visible {
-    outline: 2px solid var(--ddmm-trigger-color);
-    outline-offset: 2px;
+/* Phase 7 D-10: default focus ring on all 6 keyboard-focusable BEM surfaces.
+   Uses :focus-visible (not :focus) so mouse clicks don't show a ring.
+   Driven by --ddmm-focus-ring-* vars so it's themeable per-instance. */
+.ddmm-trigger:focus-visible,
+.ddmm-menu__item > a:focus-visible,
+.ddmm-chevron:focus-visible,
+.ddmm-close:focus-visible,
+.ddmm-back__button:focus-visible,
+.ddmm-search__input:focus-visible {
+    outline: var( --ddmm-focus-ring-width ) solid var( --ddmm-focus-ring-color );
+    outline-offset: var( --ddmm-focus-ring-offset );
 }
 
 /* Hamburger Lines (3-span trick per D-10) */
@@ -551,10 +565,6 @@
     color: var( --ddmm-search-text-color );
     -webkit-appearance: none;
     appearance: none;
-}
-.ddmm-search__input:focus {
-    outline: 2px solid var( --ddmm-trigger-color );
-    outline-offset: 1px;
 }
 .ddmm-search__results {
     list-style: none;
