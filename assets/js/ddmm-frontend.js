@@ -704,7 +704,10 @@
                 // D-11: "No results" message. textContent — NEVER string-concat HTML.
                 const li = document.createElement( 'li' );
                 li.className = 'ddmm-search__no-results';
-                li.textContent = 'No results'; // Phase 7 i18n packaging; text domain ready.
+                // Phase 7 D-16 / Pattern 9: read the translated string from the window.ddmmI18n
+                // bridge injected by Registrar.php (wp_add_inline_script). Graceful fallback
+                // to the literal English if the bridge is absent (defensive — never crash).
+                li.textContent = ( window.ddmmI18n && window.ddmmI18n.noResults ) || 'No results';
                 results.appendChild( li );
                 return;
             }
