@@ -35,6 +35,9 @@ The drill-down panel navigation must work flawlessly at any depth — parent ite
 - `render()` integration via `.ddmm-widget` wrapper with `is_edit_mode()` branch → static editor preview vs frontend drawer (Phase 4)
 - Base drawer CSS: off-canvas `translateX`, overlay, stacked panels, CSS `::after ›` chevron glyph, `--ddmm-*` custom properties, zero GPU-hostile layout transitions (Phase 4)
 - JS bootstrap skeleton: `DrillDownMenu` class with `init(container)`, dual-path init (Elementor `element_ready` + `DOMContentLoaded`), `data-ddmm-init` double-init guard — pure ES6, zero jQuery, no `wp_localize_script` (interaction deferred to Phase 5) (Phase 4)
+- Six Elementor Style Tab sections — Trigger STYL-01, Drawer STYL-02, Header STYL-03, Panel/Back Row STYL-04, Menu Items STYL-05 (Normal/Hover/**Active**), Search STYL-06 — all wired through the `--ddmm-*` custom-property bridge on top of a D-01-polished CSS baseline (Phase 6)
+- Menu Items Active state via marker classes (`ddmm-current-item` / `ddmm-current-ancestor`) emitted by Phase 5 JS — implemented as a third inner tab keying off the DOM markers (not a pseudo-state), mirroring WP `current-menu-item` / `current-menu-ancestor` (D-04) (Phase 6)
+- Strict editor≡published parity (D-07/D-08): `render_editor_preview()` emits every BEM surface with real classes, `.ddmm-editor-preview` carries zero hardcoded widget-content colors, off-canvas transform neutralized in-editor (Pitfall 8); Phase 5 hardcoded active rule removed (Pitfall 2) (Phase 6)
 
 ### Active
 
@@ -56,8 +59,6 @@ The drill-down panel navigation must work flawlessly at any depth — parent ite
 - [ ] Close menu after link click (configurable toggle)
 - [ ] Auto-open current page path (configurable toggle)
 - [ ] Close on overlay click (configurable toggle)
-- [ ] Full Style Tab: trigger button, drawer, header, panel/back row, menu items, search box
-- [ ] Style Tab supports Normal/Hover/Active states for menu items
 - [ ] Keyboard support: Escape (back/close), Tab trap, Arrow keys, Enter/Space
 - [ ] Plugin admin notice when Elementor is not active
 - [ ] Translation-ready with text domain `devsroom-drilldown-mobile-menu`
@@ -126,4 +127,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-13 after Phase 4 completion*
+*Last updated: 2026-06-14 after Phase 6 completion*
