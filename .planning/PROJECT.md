@@ -38,6 +38,10 @@ The drill-down panel navigation must work flawlessly at any depth — parent ite
 - Six Elementor Style Tab sections — Trigger STYL-01, Drawer STYL-02, Header STYL-03, Panel/Back Row STYL-04, Menu Items STYL-05 (Normal/Hover/**Active**), Search STYL-06 — all wired through the `--ddmm-*` custom-property bridge on top of a D-01-polished CSS baseline (Phase 6)
 - Menu Items Active state via marker classes (`ddmm-current-item` / `ddmm-current-ancestor`) emitted by Phase 5 JS — implemented as a third inner tab keying off the DOM markers (not a pseudo-state), mirroring WP `current-menu-item` / `current-menu-ancestor` (D-04) (Phase 6)
 - Strict editor≡published parity (D-07/D-08): `render_editor_preview()` emits every BEM surface with real classes, `.ddmm-editor-preview` carries zero hardcoded widget-content colors, off-canvas transform neutralized in-editor (Pitfall 8); Phase 5 hardcoded active rule removed (Pitfall 2) (Phase 6)
+- Full keyboard-navigation + focus-management layer (Phase 7): Esc navigates back then closes (via the Phase 5 single `close()` path), Tab trap bounded by the drawer, roving `tabindex` ArrowUp/ArrowDown between siblings, Enter/Space native activation (label navigates / chevron drills / back goes back), focus moves into the drawer on open and restores to the trigger on close — all per-container scoped (Anti-Pattern 3)
+- Screen-reader feedback + CSS a11y (Phase 7): per-container `aria-live` panel-context region (written via `textContent` only), themeable `:focus-visible` ring on the 6 keyboard-focusable BEM surfaces, `@media (prefers-reduced-motion: reduce)` neutralization (0.01ms so `transitionend` still fires), RTL baseline via CSS logical properties (`transform: translateX` deliberately untouched — full RTL is v2)
+- WooCommerce-agnostic by construction (COMP-03): `WpNavTree`/`CustomTree` read `$item->url` directly; zero `class_exists`/`wc_get_*`/`aria-disabled` calls — WC items render correct URLs whether WooCommerce is active or inactive
+- Translation-ready (COMP-04): `Domain Path: /languages` header, `load_plugin_textdomain` first in `Plugin::init()`, `wp_set_script_translations` + `window.ddmmI18n` bridge (via `wp_json_encode`), `'No results'` literal → bridge lookup with fallback, hand-authored `languages/devsroom-drilldown-mobile-menu.pot` (12 msgid entries; regenerate via WP-CLI `wp i18n make-pot` on release)
 
 ### Active
 
@@ -59,10 +63,7 @@ The drill-down panel navigation must work flawlessly at any depth — parent ite
 - [ ] Close menu after link click (configurable toggle)
 - [ ] Auto-open current page path (configurable toggle)
 - [ ] Close on overlay click (configurable toggle)
-- [ ] Keyboard support: Escape (back/close), Tab trap, Arrow keys, Enter/Space
 - [ ] Plugin admin notice when Elementor is not active
-- [ ] Translation-ready with text domain `devsroom-drilldown-mobile-menu`
-- [ ] WooCommerce menu items compatible (Cart, My Account, Checkout, Shop)
 - [ ] Assets only enqueued when widget is present on page (conditional loading)
 - [ ] Pure ES6 JavaScript, no jQuery dependency
 - [ ] OOP PHP with namespace `Devsroom_DDMM\` and PSR-4 autoloader
@@ -127,4 +128,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-06-14 after Phase 6 completion*
+*Last updated: 2026-06-15 after Phase 7 completion — **v1.0 milestone complete: all 7 phases executed.** 14 live-behavior UAT cases (keyboard / screen-reader / reduced-motion / RTL / WooCommerce / i18n) pending manual execution in `07-HUMAN-UAT.md`; advisory code-review warnings in `07-REVIEW.md`. Run `/gsd-complete-milestone` for the full PROJECT.md milestone review (incl. reconciling remaining Active items validated in earlier phases).*
