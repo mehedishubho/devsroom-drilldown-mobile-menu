@@ -107,7 +107,7 @@
 
 - [ ] **COMP-01**: Compatible with WordPress 6.5+, PHP 8.1/8.2/8.3
 - [ ] **COMP-02**: Compatible with Elementor Free and Pro
-- [ ] **COMP-03**: WooCommerce menu items render correctly (Cart, My Account, Checkout, Shop)
+- [x] **COMP-03**: WooCommerce menu items render correctly (Cart, My Account, Checkout, Shop)
 - [x] **COMP-04**: Translation-ready with text domain `devsroom-drilldown-mobile-menu` and `.pot` file
 - [x] **COMP-05**: Compatible with any WordPress theme — no theme-specific CSS overrides
 
@@ -207,7 +207,7 @@
 | A11Y-06 | Phase 7 | Complete |
 | A11Y-07 | Phase 7 | Complete |
 | A11Y-08 | Phase 7 | Complete |
-| COMP-03 | Phase 7 | Pending |
+| COMP-03 | Phase 7 | Complete |
 | COMP-04 | Phase 7 | Complete |
 
 **Coverage:**
