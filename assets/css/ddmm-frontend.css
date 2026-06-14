@@ -158,7 +158,7 @@
 .ddmm-drawer {
     position: fixed;
     top: 0;
-    left: 0;
+    inset-inline-start: 0;  /* Phase 7 D-19: was left: 0 — logical for RTL baseline. */
     height: 100vh;
     width: var( --ddmm-drawer-width );
     max-width: 85vw;
@@ -292,7 +292,7 @@
 .ddmm-menu__icon {
     display: inline-flex;
     align-items: center;
-    margin-right: 8px;
+    margin-inline-end: 8px;  /* Phase 7 D-19: was margin-right: 8px — logical for RTL baseline. */
 
     & i, & svg {
         width: 1em;
@@ -302,7 +302,7 @@
 
 /* Chevron via CSS ::after (D-02 — no extra DOM node, glyph on the button) */
 .ddmm-chevron {
-    margin-left: auto;        /* push to row-right */
+    margin-inline-start: auto;  /* Phase 7 D-19: was margin-left: auto — push to row-end for RTL baseline. */
     background: none;
     border: none;
     cursor: pointer;
