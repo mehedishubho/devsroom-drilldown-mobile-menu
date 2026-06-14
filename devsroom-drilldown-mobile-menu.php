@@ -5,6 +5,7 @@
  * Version: 0.0.01
  * Author: MEHEDI HASSAN SHUBHO
  * Text Domain: devsroom-drilldown-mobile-menu
+ * Domain Path: /languages
  * Requires at least: 6.5
  * Requires PHP: 8.1
  */
