@@ -119,9 +119,9 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 06-01-PLAN.md — Refine baseline CSS (D-01) + Trigger STYL-01, Drawer STYL-02, Header STYL-03 Style Tab sections
-- [ ] 06-02-PLAN.md — Panel/Back Row STYL-04, Menu Items Normal/Hover/Active STYL-05 (marker-class tabs), Search STYL-06 Style Tab sections
-- [ ] 06-03-PLAN.md — Editor-preview parity rework (D-07/D-08/SC#5) + human-verify checkpoint
+- [x] 06-01-PLAN.md — Refine baseline CSS (D-01) + Trigger STYL-01, Drawer STYL-02, Header STYL-03 Style Tab sections
+- [x] 06-02-PLAN.md — Panel/Back Row STYL-04, Menu Items Normal/Hover/Active STYL-05 (marker-class tabs), Search STYL-06 Style Tab sections
+- [x] 06-03-PLAN.md — Editor-preview parity rework (D-07/D-08/SC#5) + human-verify checkpoint
 
 ### Phase 7: Accessibility & Compatibility Polish
 **Goal**: The menu is fully keyboard-navigable, screen-reader friendly, WooCommerce-compatible, translation-ready, and handles edge cases gracefully
