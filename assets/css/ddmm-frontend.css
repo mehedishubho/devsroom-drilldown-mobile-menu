@@ -39,6 +39,25 @@
     --ddmm-trigger-hover-color: var(--ddmm-trigger-color);
     --ddmm-close-color: inherit;
     --ddmm-close-hover-color: var(--ddmm-trigger-color);
+
+    /* Phase 6 STYL-04/05/06 hooks (added by Plan 06-02) */
+    --ddmm-back-text-color: inherit;
+    --ddmm-back-bg: transparent;
+    --ddmm-back-hover-bg: rgba(0, 0, 0, 0.04);
+    --ddmm-back-title-color: #1a1a1a;
+    --ddmm-divider-color: var(--ddmm-menu-border-color);   /* aliases the menu border by default */
+    --ddmm-item-text-color: #1a1a1a;
+    --ddmm-item-bg: transparent;
+    --ddmm-item-hover-text-color: var(--ddmm-item-text-color);
+    --ddmm-item-hover-bg: rgba(0, 0, 0, 0.04);
+    --ddmm-item-active-text-color: #1a1a1a;
+    --ddmm-item-active-bg: rgba(0, 0, 0, 0.06);
+    --ddmm-chevron-color: inherit;
+    --ddmm-search-bg: #ffffff;
+    --ddmm-search-text-color: inherit;
+    --ddmm-search-border-color: var(--ddmm-menu-border-color);
+    --ddmm-search-radius: 4px;
+
     --ddmm-z-overlay: 1000;
     --ddmm-z-drawer: 1001;
 }
@@ -225,7 +244,9 @@
     align-items: center;
     min-height: var( --ddmm-menu-min-height );  /* WCAG touch target */
     padding: 0 16px;
-    border-bottom: 1px solid var( --ddmm-menu-border-color );
+    color: var( --ddmm-item-text-color );
+    background: var( --ddmm-item-bg );
+    border-bottom: 1px solid var( --ddmm-divider-color );
 
     & a {
         flex: 1 1 auto;
@@ -233,6 +254,24 @@
         color: inherit;
         -webkit-tap-highlight-color: transparent;
     }
+}
+
+/* D-03 item hover (STYL-05 Hover tab). */
+.ddmm-menu__item:hover {
+    color: var( --ddmm-item-hover-text-color );
+    background: var( --ddmm-item-hover-bg );
+}
+
+/* D-04 Active state — current-item + ancestor trail via marker classes
+   (Phase 5 D-13 emits these classes; STYL-05 Active tab drives colors/bg). */
+.ddmm-menu__item.ddmm-current-item,
+.ddmm-menu__item.ddmm-current-ancestor {
+    color: var( --ddmm-item-active-text-color );
+    background: var( --ddmm-item-active-bg );
+}
+.ddmm-menu__item.ddmm-current-item > a,
+.ddmm-menu__item.ddmm-current-ancestor > a {
+    color: inherit;   /* inherits the active color set on the <li> */
 }
 
 /* Menu icon (D-30 — rendered inside aria-hidden span) */
@@ -255,7 +294,7 @@
     cursor: pointer;
     padding: 0 8px;
     font-size: inherit;
-    color: inherit;
+    color: var( --ddmm-chevron-color );
     line-height: 1;
     -webkit-tap-highlight-color: transparent;
 
@@ -272,7 +311,9 @@
     align-items: center;
     gap: 12px;
     padding: 12px 16px;
-    border-bottom: 1px solid var( --ddmm-menu-border-color );
+    color: var( --ddmm-back-text-color );
+    background: var( --ddmm-back-bg );
+    border-bottom: 1px solid var( --ddmm-divider-color );
 }
 
 .ddmm-back__button {
@@ -287,6 +328,12 @@
 
 .ddmm-back__title {
     font-weight: 600;
+    color: var( --ddmm-back-title-color );
+}
+
+/* D-03 back row hover (STYL-04 Hover tab). */
+.ddmm-back:hover {
+    background: var( --ddmm-back-hover-bg );
 }
 
 /* Editor-only preview (D-18) — inline static root panel, never on frontend */
@@ -464,10 +511,10 @@
     padding: 8px 12px;
     font-size: 14px;
     font-family: inherit;
-    border: 1px solid var( --ddmm-menu-border-color );
-    border-radius: 4px;
-    background: #fff;
-    color: inherit;
+    border: 1px solid var( --ddmm-search-border-color );
+    border-radius: var( --ddmm-search-radius );
+    background: var( --ddmm-search-bg );
+    color: var( --ddmm-search-text-color );
     -webkit-appearance: none;
     appearance: none;
 }
@@ -520,15 +567,10 @@
 }
 
 /* ========================================================================
-   Phase 5: Auto-open current-item / ancestor markers (EXTR-03, D-13)
-   Plan 04 JS adds these classes to the matching <li> + ancestor <li>s.
-   Phase 6 Style Tab will add full Active styling; Phase 5 ships a visible
-   marker so auto-open is perceptible before Phase 6.
+   Phase 6: Active state styling lives in the .ddmm-menu__item.ddmm-current-item
+   and .ddmm-menu__item.ddmm-current-ancestor rules above (see Plan 06-02).
+   The Phase 5 hardcoded font-weight/color markers were removed (Pitfall 2
+   finalization) so the STYL-05 Active tab fully owns the active appearance.
+   The marker classes are emitted by the Phase 5 JS auto-open logic (EXTR-03,
+   D-13) — this phase only styles them.
    ======================================================================== */
-.ddmm-menu__item.ddmm-current-item > a {
-    font-weight: 600;
-    color: var( --ddmm-trigger-color );
-}
-.ddmm-menu__item.ddmm-current-ancestor > a {
-    font-weight: 500;
-}
