@@ -411,44 +411,154 @@ final class DrawerRenderer {
 	}
 
 	/**
-	 * Elementor edit-mode entry point (D-18).
+	 * Elementor edit-mode entry point (D-18, D-07 full representative preview).
 	 *
-	 * Emits ONLY a static inline root panel <ul> so the editor user sees the
-	 * configured items with icons + chevrons. Emits NO overlay, NO drawer
-	 * wrapper, NO off-canvas transform, NO child panel siblings, and NO back
-	 * rows. Sub-panels are omitted per D-18. Plan 02 wraps this <ul> output
-	 * in <div class="ddmm-editor-preview">.
+	 * Emits EVERY BEM surface the Style Tab controls so all six sections
+	 * (STYL-01..06) are visible in the editor (SC#5 strict parity, D-08).
+	 * Real BEM classes + same --ddmm-* vars/selectors mean Style Tab changes
+	 * cascade through identically to the published page.
+	 *
+	 * Structure (in order):
+	 *   1. Representative Trigger (.ddmm-trigger + .ddmm-hamburger) — STYL-01.
+	 *   2. Representative Drawer container (.ddmm-drawer) — STYL-02. The
+	 *      .ddmm-editor-preview CSS neutralizes the off-canvas transform
+	 *      (Pitfall 8 — see ddmm-frontend.css).
+	 *   3. Representative Header (.ddmm-header + .ddmm-brand__text +
+	 *      .ddmm-close) — STYL-03.
+	 *   4. Representative Search sample (.ddmm-search + .ddmm-search__input) —
+	 *      STYL-06. Always rendered so users can pre-style search before
+	 *      enabling it (D-08 discretion: always-show).
+	 *   5. Representative Back Row (.ddmm-back + .ddmm-back__button +
+	 *      .ddmm-back__title) — STYL-04.
+	 *   6. Representative Menu Items (.ddmm-menu__item). The FIRST item carries
+	 *      the ddmm-current-item marker class so the STYL-05 Active tab is
+	 *      visible in the editor (D-04). Reuses render_editor_item() for the
+	 *      item bodies (icon + label + chevron).
+	 *
+	 * Emits NO overlay, NO off-canvas transform, NO child panel siblings.
+	 * Sub-panels are omitted per D-18 (root representative only). The method
+	 * is wrapped in <div class="ddmm-editor-preview"> by DrillDownMenu::render().
 	 *
 	 * @param array $tree     Root-level nodes from WpNavTree/CustomTree.
 	 * @param array $settings Widget settings.
 	 * @return void Echos HTML directly.
 	 */
 	public static function render_editor_preview( array $tree, array $settings ): void {
-		if ( empty( $tree ) ) {
-			return;
+		// 1. Representative Trigger (STYL-01) — hamburger type (default).
+		// The .ddmm-trigger-wrapper mirrors the frontend trigger wrapper.
+		echo '<div class="ddmm-trigger-wrapper">';
+		echo '<button type="button" class="ddmm-trigger ddmm-trigger--hamburger" aria-expanded="false">';
+		echo '<span class="ddmm-hamburger">';
+		echo '<span class="ddmm-hamburger__line"></span>';
+		echo '<span class="ddmm-hamburger__line"></span>';
+		echo '<span class="ddmm-hamburger__line"></span>';
+		echo '</span>';
+		echo '</button>';
+		echo '</div>';
+
+		// 2. Representative Drawer preview container (STYL-02) — carries .ddmm-drawer
+		// so the Drawer section selectors apply. The .ddmm-editor-preview CSS
+		// neutralizes the off-canvas transform (Pitfall 8 — see Task 2 CSS).
+		echo '<div class="ddmm-drawer">';
+
+		// 3. Representative Header (STYL-03) — brand text + close button.
+		echo '<div class="ddmm-header">';
+		$brand_text = ! empty( $settings['brand_text'] )
+			? $settings['brand_text']
+			: get_bloginfo( 'name' );
+		if ( empty( $brand_text ) ) {
+			$brand_text = __( 'Brand Name', 'devsroom-drilldown-mobile-menu' );
+		}
+		printf(
+			'<div class="ddmm-brand"><span class="ddmm-brand__text">%s</span></div>',
+			esc_html( $brand_text )
+		);
+		printf(
+			'<button type="button" class="ddmm-close" aria-label="%s">&times;</button>',
+			esc_attr__( 'Close menu', 'devsroom-drilldown-mobile-menu' )
+		);
+		echo '</div>'; // .ddmm-header
+
+		// 4. Representative Search sample (STYL-06) — always rendered so users
+		// can pre-style search before enabling it (D-08 discretion: always-show).
+		// Uses the same .ddmm-search / .ddmm-search__input classes as the frontend.
+		$search_placeholder = ! empty( $settings['search_placeholder'] )
+			? $settings['search_placeholder']
+			: __( 'Search menu…', 'devsroom-drilldown-mobile-menu' );
+		printf(
+			'<div class="ddmm-search" role="search">' .
+				'<input type="search" class="ddmm-search__input" placeholder="%s" disabled>' .
+			'</div>',
+			esc_attr( $search_placeholder )
+		);
+
+		// 5. Representative Back Row (STYL-04) — back button + sample parent title.
+		echo '<div class="ddmm-back">';
+		printf(
+			'<button type="button" class="ddmm-back__button">&larr; %s</button>',
+			esc_html__( 'Back', 'devsroom-drilldown-mobile-menu' )
+		);
+		printf(
+			'<span class="ddmm-back__title">%s</span>',
+			esc_html__( 'Parent Item', 'devsroom-drilldown-mobile-menu' )
+		);
+		echo '</div>'; // .ddmm-back
+
+		// 6. Representative Menu Items (STYL-05) — render the configured tree
+		// (capped to keep the preview compact). The FIRST leaf carries the
+		// ddmm-current-item marker class so the STYL-05 Active tab is visible
+		// in the editor (D-04). render_editor_item() is reused for the bodies.
+		if ( ! empty( $tree ) ) {
+			echo '<ul class="ddmm-menu">';
+
+			// Cap at 6 items so the preview stays compact.
+			$preview_items = array_slice( $tree, 0, 6 );
+			$is_first      = true;
+			foreach ( $preview_items as $node ) {
+				if ( $is_first ) {
+					self::render_editor_item( $node, $settings, true ); // $mark_active = true.
+					$is_first = false;
+				} else {
+					self::render_editor_item( $node, $settings, false );
+				}
+			}
+			echo '</ul>';
+		} else {
+			// Empty-tree fallback — show 2 sample placeholder items so the preview
+			// is never empty even when the user hasn't configured a menu yet.
+			echo '<ul class="ddmm-menu">';
+			echo '<li class="ddmm-menu__item ddmm-current-item"><a href="#">' . esc_html__( 'Sample Current Page', 'devsroom-drilldown-mobile-menu' ) . '</a></li>';
+			echo '<li class="ddmm-menu__item"><a href="#">' . esc_html__( 'Sample Menu Item', 'devsroom-drilldown-mobile-menu' ) . '<button type="button" class="ddmm-chevron" aria-label="' . esc_attr__( 'Show submenu', 'devsroom-drilldown-mobile-menu' ) . '"></button></a></li>';
+			echo '</ul>';
 		}
 
-		echo '<ul class="ddmm-menu">';
-		foreach ( $tree as $node ) {
-			self::render_editor_item( $node, $settings );
-		}
-		echo '</ul>';
+		echo '</div>'; // .ddmm-drawer
 	}
 
 	/**
-	 * Non-recursive editor item helper (D-18).
+	 * Non-recursive editor item helper (D-18, D-04 active marker for STYL-05).
 	 *
 	 * Emits a single <li> with optional icon + <a>/text + CSS-::after chevron
 	 * (when has_children). Does NOT recurse into render_panel() and emits NO
 	 * sibling child panel <div> and NO back row. The chevron here is a
 	 * NON-FUNCTIONAL visual placeholder (the editor preview does not drill down).
 	 *
-	 * @param array $node     Tree node (8-field contract).
-	 * @param array $settings Widget settings.
+	 * When $mark_active is true, the <li> additionally carries the
+	 * ddmm-current-item marker class so the STYL-05 Active tab is visible in
+	 * the editor preview (D-04). The caller (render_editor_preview) sets this
+	 * on the first preview item only.
+	 *
+	 * @param array $node        Tree node (8-field contract).
+	 * @param array $settings    Widget settings.
+	 * @param bool  $mark_active Optional. Append ddmm-current-item marker class.
 	 * @return void Echos HTML directly.
 	 */
-	private static function render_editor_item( array $node, array $settings ): void {
-		echo '<li class="ddmm-menu__item">';
+	private static function render_editor_item( array $node, array $settings, bool $mark_active = false ): void {
+		$li_class = 'ddmm-menu__item';
+		if ( $mark_active ) {
+			$li_class .= ' ddmm-current-item'; // D-04: show Active tab in editor.
+		}
+		echo '<li class="' . esc_attr( $li_class ) . '">';
 
 		// Icon (same render_icon helper — D-30).
 		$icon_html = self::render_icon( $node['icon'] ?? [] );
