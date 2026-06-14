@@ -571,13 +571,19 @@ class DrillDownMenu extends Widget_Base {
             'trigger_hover',
             [ 'label' => esc_html__( 'Hover', 'devsroom-drilldown-mobile-menu' ) ]
         );
+        // WR-02 fix: route the two Hover-tab controls through the --ddmm-trigger-hover-* var bridge
+        // (the established convention for every other Color control in this phase). The CSS rule
+        // `.ddmm-trigger:hover { background: var(--ddmm-trigger-hover-bg); color: var(--ddmm-trigger-hover-color); }`
+        // (ddmm-frontend.css:88-91) consumes them, and the var defaults at lines 38-39 cascade
+        // `--ddmm-trigger-hover-color: var(--ddmm-trigger-color)` so changing Normal color updates
+        // hover too until the user explicitly overrides (IN-04 — reachable as designed once fixed).
         $this->add_control(
             'trigger_hover_color',
             [
                 'label'     => esc_html__( 'Color', 'devsroom-drilldown-mobile-menu' ),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .ddmm-trigger:hover' => 'color: {{VALUE}};',
+                    '{{WRAPPER}}' => '--ddmm-trigger-hover-color: {{VALUE}};',
                 ],
             ]
         );
@@ -587,7 +593,7 @@ class DrillDownMenu extends Widget_Base {
                 'label'     => esc_html__( 'Background', 'devsroom-drilldown-mobile-menu' ),
                 'type'      => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .ddmm-trigger:hover' => 'background: {{VALUE}};',
+                    '{{WRAPPER}}' => '--ddmm-trigger-hover-bg: {{VALUE}};',
                 ],
             ]
         );
