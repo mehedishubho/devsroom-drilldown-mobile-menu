@@ -1,0 +1,62 @@
+# Copyright (C) 2026 MEHEDI HASSAN SHUBHO
+# This file is distributed under the same license as the Devsroom DrillDown Mobile Menu package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Devsroom DrillDown Mobile Menu 0.0.01\n"
+"Report-Msgid-Bugs-To: https://example.com/support\n"
+"POT-Creation-Date: 2026-06-14T13:00:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: devsroom-drilldown-mobile-menu\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/Assets/Registrar.php
+msgid "No results"
+msgstr ""
+
+#: src/Rendering/DrawerRenderer.php
+msgid "Mobile Menu"
+msgstr ""
+
+#: src/Rendering/DrawerRenderer.php
+msgid "Close menu"
+msgstr ""
+
+#: src/Rendering/DrawerRenderer.php
+msgid "Search menu…"
+msgstr ""
+
+#: src/Rendering/DrawerRenderer.php
+msgid "Search menu items"
+msgstr ""
+
+#: src/Rendering/DrawerRenderer.php
+msgid "Back"
+msgstr ""
+
+#: src/Rendering/DrawerRenderer.php
+msgid "Brand Name"
+msgstr ""
+
+#: src/Rendering/DrawerRenderer.php
+msgid "Sample Current Page"
+msgstr ""
+
+#: src/Rendering/DrawerRenderer.php
+msgid "Sample Menu Item"
+msgstr ""
+
+#: src/Rendering/DrawerRenderer.php
+msgid "Show submenu"
+msgstr ""
+
+#: src/Rendering/DrawerRenderer.php
+msgid "Show %s submenu"
+msgstr ""
+
+#: src/Plugin.php
+msgid "Devsroom"
+msgstr ""
