@@ -137,7 +137,7 @@ Plans:
 
 Plans:
 - [x] 07-01-PLAN.md — Keyboard handlers (Esc/Tab/Arrows/Enter-Space), focus move/restore, roving tabindex, aria-live panel-context region emission (DrawerRenderer + ddmm-frontend.js)
-- [ ] 07-02-PLAN.md — CSS a11y: :focus-visible on 6 BEM surfaces, @media (prefers-reduced-motion: reduce) neutralization, RTL baseline via CSS logical properties
+- [x] 07-02-PLAN.md — CSS a11y: :focus-visible on 6 BEM surfaces, @media (prefers-reduced-motion: reduce) neutralization, RTL baseline via CSS logical properties
 - [ ] 07-03-PLAN.md — i18n packaging: Domain Path header, load_plugin_textdomain, wp_set_script_translations, PHP→JS i18n bridge (wp_add_inline_script + window.ddmmI18n), WP-CLI .pot generation
 - [ ] 07-04-PLAN.md — COMP-03 static verification (WC-agnostic by construction) + 07-HUMAN-UAT.md manual verification matrix for all live-behavior truths
 
