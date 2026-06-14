@@ -22,15 +22,23 @@
     --ddmm-transition-duration: 300ms;
     --ddmm-transition-easing: ease;
 
-    /* Phase 4 layout vars (Phase 6 Style Tab will override these) */
+    /* Phase 4 layout vars (Phase 6 Style Tab overrides these).
+       D-01 polish-the-baseline: softer borders, refined spacing, subtle drawer shadow. */
     --ddmm-drawer-width: 320px;
     --ddmm-drawer-bg: #ffffff;
+    --ddmm-drawer-box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
     --ddmm-overlay-bg: rgba(0, 0, 0, 0.5);
     --ddmm-header-height: 56px;
+    --ddmm-header-border-color: rgba(0, 0, 0, 0.06);
+    --ddmm-header-title-color: #1a1a1a;
     --ddmm-brand-max-height: 40px;
     --ddmm-panel-bg: #ffffff;
     --ddmm-menu-min-height: 48px;
-    --ddmm-menu-border-color: rgba(0, 0, 0, 0.05);
+    --ddmm-menu-border-color: rgba(0, 0, 0, 0.06);
+    --ddmm-trigger-hover-bg: rgba(0, 0, 0, 0.04);
+    --ddmm-trigger-hover-color: var(--ddmm-trigger-color);
+    --ddmm-close-color: inherit;
+    --ddmm-close-hover-color: var(--ddmm-trigger-color);
     --ddmm-z-overlay: 1000;
     --ddmm-z-drawer: 1001;
 }
@@ -56,6 +64,11 @@
     -webkit-tap-highlight-color: transparent;
     transition: background var(--ddmm-transition-duration) var( --ddmm-transition-easing ),
                 color var(--ddmm-transition-duration) var( --ddmm-transition-easing );
+}
+
+.ddmm-trigger:hover {
+    background: var(--ddmm-trigger-hover-bg);
+    color: var(--ddmm-trigger-hover-color);
 }
 
 .ddmm-trigger:focus-visible {
@@ -117,6 +130,7 @@
     width: var( --ddmm-drawer-width );
     max-width: 85vw;
     background: var( --ddmm-drawer-bg );
+    box-shadow: var( --ddmm-drawer-box-shadow );
     transform: translateX( -100% );
     z-index: var( --ddmm-z-drawer );
     overflow: hidden;
@@ -133,6 +147,7 @@
     justify-content: space-between;
     min-height: var( --ddmm-header-height );
     padding: 0 16px;
+    border-bottom: 1px solid var( --ddmm-header-border-color );
     flex-shrink: 0;
 
     & .ddmm-brand__img {
@@ -144,6 +159,7 @@
     & .ddmm-brand__text {
         font-size: 18px;
         font-weight: 600;
+        color: var( --ddmm-header-title-color );
     }
 }
 
@@ -155,8 +171,12 @@
     font-size: 24px;
     line-height: 1;
     padding: 4px 8px;
-    color: inherit;
+    color: var( --ddmm-close-color );
     -webkit-tap-highlight-color: transparent;
+}
+
+.ddmm-close:hover {
+    color: var( --ddmm-close-hover-color );
 }
 
 /* Nav wrapper (A11Y-01) */
