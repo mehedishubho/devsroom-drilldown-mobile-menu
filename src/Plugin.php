@@ -66,6 +66,18 @@ final class Plugin {
      * @return void
      */
     public function init(): void {
+        // Phase 7 D-17: load translations FIRST so every subsequent string
+        // (admin notice, widget controls, renderer output) is translatable.
+        // plugin_basename(__FILE__) here = 'devsroom-drilldown-mobile-menu/src/Plugin.php';
+        // dirname(...) = 'devsroom-drilldown-mobile-menu' — the plugin slug.
+        // The path is RELATIVE TO wp-content/plugins/, so appending '/languages'
+        // resolves to wp-content/plugins/devsroom-drilldown-mobile-menu/languages/.
+        load_plugin_textdomain(
+            'devsroom-drilldown-mobile-menu',
+            false,
+            dirname( plugin_basename( __FILE__ ) ) . '/languages'
+        );
+
         // Always register the admin notice class — it guards itself internally.
         ( new ElementorNotice() )->register();
 
