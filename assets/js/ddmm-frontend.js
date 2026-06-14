@@ -42,6 +42,10 @@
             this.history = [];
             this.searchIndex = [];
             this.searchTimer = null;
+            // Phase 7 D-07: track the trigger so close() can restore focus.
+            this.lastTrigger = null;
+            // Phase 7: store the document-level keydown handler reference so it can be detached (Pitfall 2).
+            this.docHandler = null;
 
             // Pattern 4: parse config once (data-* bridge from PHP).
             this.config = {
@@ -64,6 +68,8 @@
                 this.buildSearchIndex();
                 this.wireSearch();
             }
+            // Phase 7: drawer-scoped keydown for Arrow roving (Tab trap + Esc attach on open).
+            this.wireKeyboard();
         }
 
         /**
@@ -120,12 +126,18 @@
             if ( this.config.autoOpen ) {
                 this.autoOpenCurrentPath();
             }
+            // Phase 7 A11Y-04/05/08: attach doc-level listeners, move focus, announce.
+            this.attachDocListeners();
+            this.focusInitialTarget(); // D-03: focus moves into the drawer.
+            this.announcePanelContext(); // D-08: announce the initial panel context.
         }
 
         /**
          * D-19: single close path. Reverses everything open() and drill() did.
          */
         close() {
+            // Phase 7 D-07: capture the trigger NOW so focus can be restored after cleanup.
+            this.lastTrigger = this.container.querySelector( '[data-ddmm-trigger], .ddmm-trigger' );
             this.container.classList.remove( 'ddmm-is-open' );
             const trigger = this.container.querySelector( '[data-ddmm-trigger], .ddmm-trigger' );
             if ( trigger ) {
@@ -140,6 +152,11 @@
             this.resetPanels();
             this.clearSearch();
             this.history = [];
+            // Phase 7 A11Y-05/08: detach the Tab trap (Pitfall 2) and restore focus to the trigger (D-07).
+            this.detachDocListeners();
+            if ( this.lastTrigger ) {
+                this.lastTrigger.focus();
+            }
         }
 
         /**
@@ -222,6 +239,9 @@
                 outgoing.removeEventListener( 'transitionend', onEnd );
                 outgoing.scrollTop = 0;
             } );
+            // Phase 7 D-05/D-08: focus the first item of the new panel + announce its context.
+            this.focusInitialTarget();
+            this.announcePanelContext();
         }
 
         /**
@@ -253,6 +273,9 @@
             if ( chevron ) {
                 chevron.setAttribute( 'aria-expanded', 'false' );
             }
+            // Phase 7 D-05/D-08: focus the first item of the returned panel + announce its context.
+            this.focusInitialTarget();
+            this.announcePanelContext();
         }
 
         /**
@@ -273,6 +296,183 @@
                     this.close();
                 } );
             }
+        }
+
+        /**
+         * Phase 7: wire the drawer-scoped keydown listener (ArrowUp/ArrowDown roving).
+         * Tab trap + Esc are document-level (attachDocListeners/detachDocListeners)
+         * because Tab can otherwise leak past the drawer boundary and Esc precedence
+         * must be global while the drawer is open.
+         */
+        wireKeyboard() {
+            const drawer = this.container.querySelector( '[data-ddmm-drawer]' );
+            if ( ! drawer ) return;
+            drawer.addEventListener( 'keydown', ( e ) => this.onDrawerKeydown( e ) );
+        }
+
+        /**
+         * Drawer-scoped keydown handler: ArrowUp/ArrowDown move the roving tabindex
+         * among sibling items in the active panel. Enter/Space are intentionally NOT
+         * handled here — native <a>/<button> activation handles them, and the existing
+         * delegated click handler at line 168 routes chevron/back clicks to drill()/back().
+         */
+        onDrawerKeydown( e ) {
+            if ( e.key === 'ArrowDown' || e.key === 'ArrowUp' ) {
+                e.preventDefault();
+                this.moveRoving( e.key === 'ArrowDown' ? 1 : -1 );
+            }
+            // Enter / ' ' (Space) fall through to native activation.
+        }
+
+        /**
+         * Phase 7 D-02 + A11Y-04/05: attach the document-level keydown handler
+         * (Esc back-then-close + Tab trap). Called from open(). Stores the handler
+         * reference on the instance so detachDocListeners() can remove the EXACT
+         * same function reference (Pitfall 2).
+         */
+        attachDocListeners() {
+            this.docHandler = ( e ) => this.onDocKeydown( e );
+            document.addEventListener( 'keydown', this.docHandler );
+        }
+
+        /**
+         * Pitfall 2: detach the document-level keydown handler. Called from close()
+         * so the trap detaches on EVERY close path (D-19 single close path guarantees
+         * this is reached for Esc / overlay / ✕ / link-click).
+         */
+        detachDocListeners() {
+            if ( this.docHandler ) {
+                document.removeEventListener( 'keydown', this.docHandler );
+                this.docHandler = null;
+            }
+        }
+
+        /**
+         * Document-level keydown: Esc precedence (D-02) + Tab trap (A11Y-05).
+         * Anti-Pattern 3: scope via this.container.contains(e.target) so container A
+         * never affects container B.
+         */
+        onDocKeydown( e ) {
+            // Per-container scope guard.
+            if ( ! this.container.contains( e.target ) ) return;
+
+            if ( e.key === 'Escape' ) {
+                // Pitfall 1: if the search input has focus, let the existing listener
+                // at line 447 handle Esc (clear + blur). Once blurred, the next Esc
+                // press correctly routes here -> back-then-close.
+                const searchInput = this.container.querySelector( '[data-ddmm-search-input]' );
+                if ( searchInput && document.activeElement === searchInput ) return;
+
+                e.preventDefault();
+                // D-02: back one level first; if already at root, close.
+                if ( this.history.length > 0 ) {
+                    this.back();
+                    this.focusInitialTarget(); // D-05: focus first item of the panel we returned to
+                    this.announcePanelContext(); // D-08: announce the panel we returned to
+                } else {
+                    this.close(); // routes through D-19 single close path (restores focus + detaches trap)
+                }
+                return;
+            }
+
+            if ( e.key === 'Tab' ) {
+                this.trapTab( e );
+            }
+        }
+
+        /**
+         * A11Y-05 Tab trap: Tab on last focusable wraps to first; Shift+Tab on first
+         * wraps to last. Per Pattern 2 selector. Pitfall 6: filter display:none elements
+         * via offsetParent so hidden search results are never Tab targets.
+         */
+        trapTab( e ) {
+            const focusables = this.getFocusables();
+            if ( ! focusables.length ) return;
+            const first = focusables[ 0 ];
+            const last = focusables[ focusables.length - 1 ];
+            if ( e.shiftKey && document.activeElement === first ) {
+                e.preventDefault();
+                last.focus();
+            } else if ( ! e.shiftKey && document.activeElement === last ) {
+                e.preventDefault();
+                first.focus();
+            }
+        }
+
+        /**
+         * Pattern 2 focusable selector — query inside this.container only.
+         * Selects: close, back, search input, active panel's leaf <a>s + chevrons.
+         * Pitfall 6: filter out display:none (search results hidden unless .ddmm-search-active).
+         */
+        getFocusables() {
+            const all = this.container.querySelectorAll(
+                '[data-ddmm-close], [data-back-target], [data-ddmm-search-input], ' +
+                '.ddmm-panel--active .ddmm-menu > li > a, ' +
+                '.ddmm-panel--active .ddmm-menu .ddmm-chevron'
+            );
+            return Array.from( all ).filter( ( el ) => el.offsetParent !== null );
+        }
+
+        /**
+         * A11Y-06 / D-11 roving tabindex move. Operates on the active panel's
+         * sibling items (leaf <a>s + chevrons). Pitfall 3: reset ALL items to -1
+         * before setting the new tabindex=0 (prevents drift across drill/back).
+         * @param {number} direction +1 for ArrowDown, -1 for ArrowUp.
+         */
+        moveRoving( direction ) {
+            const panel = this.container.querySelector( '.ddmm-panel--active' );
+            if ( ! panel ) return;
+            const items = Array.from(
+                panel.querySelectorAll( '.ddmm-menu > li > a, .ddmm-menu .ddmm-chevron' )
+            );
+            if ( items.length < 2 ) return;
+            const currentIdx = items.findIndex( ( el ) => el.tabIndex === 0 );
+            const startIdx = currentIdx >= 0 ? currentIdx : 0;
+            const nextIdx = ( startIdx + direction + items.length ) % items.length;
+            // Pitfall 3: reset ALL, then set the new active.
+            items.forEach( ( el ) => { el.tabIndex = -1; } );
+            items[ nextIdx ].tabIndex = 0;
+            items[ nextIdx ].focus();
+        }
+
+        /**
+         * D-03/D-05/D-11: set up roving for the active panel and move focus to the
+         * D-03 target. Called from open() after autoOpenCurrentPath(), and from
+         * drill()/back()/Esc-back after panel state changes.
+         *
+         * D-03 target priority: the auto-opened current item (.ddmm-current-item > a)
+         * if present, else the first sibling item (leaf <a> or chevron).
+         */
+        focusInitialTarget() {
+            const panel = this.container.querySelector( '.ddmm-panel--active' );
+            if ( ! panel ) return;
+            const items = Array.from(
+                panel.querySelectorAll( '.ddmm-menu > li > a, .ddmm-menu .ddmm-chevron' )
+            );
+            if ( ! items.length ) return;
+            // D-03: prefer the auto-opened current item's anchor.
+            const current = panel.querySelector( '.ddmm-current-item > a' );
+            const target = current || items[ 0 ];
+            // Pitfall 3: reset ALL items to tabindex=-1, then set tabindex=0 on target.
+            items.forEach( ( el ) => { el.tabIndex = -1; } );
+            target.tabIndex = 0;
+            target.focus();
+        }
+
+        /**
+         * D-08: write the active panel's context to the aria-live region.
+         * Child panel -> its .ddmm-back__title textContent (parent name).
+         * Root panel -> the .ddmm-nav aria-label.
+         * textContent only — NEVER innerHTML (ASVS V5, Threat T-07-01-01).
+         */
+        announcePanelContext() {
+            const status = this.container.querySelector( '[data-ddmm-sr-status]' );
+            if ( ! status ) return;
+            const panel = this.container.querySelector( '.ddmm-panel--active' );
+            const title = panel ? panel.querySelector( '.ddmm-back__title' ) : null;
+            const nav = this.container.querySelector( '.ddmm-nav' );
+            const navLabel = nav ? nav.getAttribute( 'aria-label' ) : '';
+            status.textContent = ( title && title.textContent ) || navLabel || '';
         }
 
         /**
