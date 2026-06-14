@@ -618,3 +618,28 @@
    The marker classes are emitted by the Phase 5 JS auto-open logic (EXTR-03,
    D-13) — this phase only styles them.
    ======================================================================== */
+
+/* ========================================================================
+   Phase 7 D-18: prefers-reduced-motion neutralization.
+   Applies to ALL animation types (slide/fade/scale/slidefade) because the
+   selector targets .ddmm-widget descendants unconditionally. !important is
+   required because the per-animation-type rules above (lines 447-512) have
+   higher specificity than this global rule.
+
+   Pitfall 8 (CRITICAL): duration is 0.01ms, NOT 0ms. Zero-duration transitions
+   do not reliably fire transitionend across browsers, which would break Phase 5's
+   scroll-reset cleanup in drill() at ddmm-frontend.js:220. The 0.01ms value is
+   short enough to feel instant to the user yet long enough to guarantee the
+   transitionend event fires. Consensus per MDN + CSS Remedy issue #11.
+   ======================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    .ddmm-widget,
+    .ddmm-widget *,
+    .ddmm-widget *::before,
+    .ddmm-widget *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
