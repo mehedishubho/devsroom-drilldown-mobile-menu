@@ -133,7 +133,13 @@ Plans:
   3. Focus moves to the drawer when opened and is restored to the trigger button when closed
   4. WooCommerce menu items (Cart, My Account, Checkout, Shop) render with correct URLs whether WooCommerce is active or inactive
   5. All user-facing strings use the correct text domain and a .pot file exists for translation
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [x] 07-01-PLAN.md — Keyboard handlers (Esc/Tab/Arrows/Enter-Space), focus move/restore, roving tabindex, aria-live panel-context region emission (DrawerRenderer + ddmm-frontend.js)
+- [ ] 07-02-PLAN.md — CSS a11y: :focus-visible on 6 BEM surfaces, @media (prefers-reduced-motion: reduce) neutralization, RTL baseline via CSS logical properties
+- [ ] 07-03-PLAN.md — i18n packaging: Domain Path header, load_plugin_textdomain, wp_set_script_translations, PHP→JS i18n bridge (wp_add_inline_script + window.ddmmI18n), WP-CLI .pot generation
+- [ ] 07-04-PLAN.md — COMP-03 static verification (WC-agnostic by construction) + 07-HUMAN-UAT.md manual verification matrix for all live-behavior truths
 
 ## Progress
 
@@ -149,4 +155,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 4. Rendering Pipeline & Drawer HTML | 0/4 | Not started | - |
 | 5. Frontend Drill-Down JavaScript | 0/4 | Planned | - |
 | 6. Style Tab Controls | 0/3 | Planned | - |
-| 7. Accessibility & Compatibility Polish | 0/? | Not started | - |
+| 7. Accessibility & Compatibility Polish | 0/4 | Planned | - |

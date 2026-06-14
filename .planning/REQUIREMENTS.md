@@ -89,11 +89,11 @@
 - [ ] **A11Y-01**: Drawer uses `<nav aria-label>` (never `role="menu"`)
 - [ ] **A11Y-02**: Parent items use `<button>` or `<span role="button" tabindex="0">` with `aria-expanded`
 - [ ] **A11Y-03**: Trigger button has `aria-expanded` and `aria-controls` pointing to drawer ID
-- [ ] **A11Y-04**: Keyboard: Escape closes drawer or goes back one level
-- [ ] **A11Y-05**: Keyboard: Tab trap keeps focus inside open drawer
-- [ ] **A11Y-06**: Keyboard: Arrow keys navigate between menu items
-- [ ] **A11Y-07**: Keyboard: Enter/Space activates parent items (drill in) and back button (go back)
-- [ ] **A11Y-08**: Focus moves to drawer when opened, restored to trigger when closed
+- [x] **A11Y-04**: Keyboard: Escape closes drawer or goes back one level
+- [x] **A11Y-05**: Keyboard: Tab trap keeps focus inside open drawer
+- [x] **A11Y-06**: Keyboard: Arrow keys navigate between menu items
+- [x] **A11Y-07**: Keyboard: Enter/Space activates parent items (drill in) and back button (go back)
+- [x] **A11Y-08**: Focus moves to drawer when opened, restored to trigger when closed
 
 ### JavaScript
 
@@ -202,11 +202,11 @@
 | STYL-04 | Phase 6 | Pending |
 | STYL-05 | Phase 6 | Pending |
 | STYL-06 | Phase 6 | Pending |
-| A11Y-04 | Phase 7 | Pending |
-| A11Y-05 | Phase 7 | Pending |
-| A11Y-06 | Phase 7 | Pending |
-| A11Y-07 | Phase 7 | Pending |
-| A11Y-08 | Phase 7 | Pending |
+| A11Y-04 | Phase 7 | Complete |
+| A11Y-05 | Phase 7 | Complete |
+| A11Y-06 | Phase 7 | Complete |
+| A11Y-07 | Phase 7 | Complete |
+| A11Y-08 | Phase 7 | Complete |
 | COMP-03 | Phase 7 | Pending |
 | COMP-04 | Phase 7 | Pending |
 
