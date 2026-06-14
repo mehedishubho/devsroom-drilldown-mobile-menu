@@ -850,6 +850,379 @@ class DrillDownMenu extends Widget_Base {
         );
 
         $this->end_controls_section();
+
+        // ====================================================================
+        // Phase 6 Plan 06-02: Panel & Back Row (STYL-04), Menu Items (STYL-05),
+        // Search Box (STYL-06). These three sections append after the 06-01
+        // Style Tab sections (Trigger STYL-01, Drawer STYL-02, Header STYL-03).
+        // ====================================================================
+
+        // --- Style Tab: Panel & Back Row (STYL-04 + D-02 back title typography + D-03 back hover) ---
+        $this->start_controls_section(
+            'section_style_panel_back',
+            [
+                'label' => esc_html__( 'Panel & Back Row', 'devsroom-drilldown-mobile-menu' ),
+                'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        // Back text color.
+        $this->add_control(
+            'back_color',
+            [
+                'label'     => esc_html__( 'Back Text Color', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}}' => '--ddmm-back-text-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        // Back background — Normal/Hover state tabs (D-03).
+        $this->start_controls_tabs( 'back_state_tabs' );
+
+        $this->start_controls_tab(
+            'back_normal',
+            [ 'label' => esc_html__( 'Normal', 'devsroom-drilldown-mobile-menu' ) ]
+        );
+        $this->add_control(
+            'back_bg',
+            [
+                'label'     => esc_html__( 'Background', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}}' => '--ddmm-back-bg: {{VALUE}};',
+                ],
+            ]
+        );
+        $this->end_controls_tab();
+
+        $this->start_controls_tab(
+            'back_hover',
+            [ 'label' => esc_html__( 'Hover', 'devsroom-drilldown-mobile-menu' ) ]
+        );
+        $this->add_control(
+            'back_hover_bg',
+            [
+                'label'     => esc_html__( 'Background', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}}' => '--ddmm-back-hover-bg: {{VALUE}};',
+                ],
+            ]
+        );
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
+
+        // Back title typography (D-02 — required by STYL-04).
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name'     => 'back_title_typography',   // Pitfall 3: unique across widget.
+                'label'    => esc_html__( 'Back Title Typography', 'devsroom-drilldown-mobile-menu' ),
+                'selector' => '{{WRAPPER}} .ddmm-back__title',
+            ]
+        );
+
+        // Back title color.
+        $this->add_control(
+            'back_title_color',
+            [
+                'label'     => esc_html__( 'Back Title Color', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'default'   => '#1a1a1a',   // Pitfall 9: matches --ddmm-back-title-color.
+                'selectors' => [
+                    '{{WRAPPER}}' => '--ddmm-back-title-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        // Divider color.
+        $this->add_control(
+            'divider_color',
+            [
+                'label'     => esc_html__( 'Divider Color', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'alpha'     => true,
+                'selectors' => [
+                    '{{WRAPPER}}' => '--ddmm-divider-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // --- Style Tab: Menu Items (STYL-05 + D-04 Active = current+ancestor + D-05 padding responsive + D-06 per-side Dimensions + D-02 menu typography) ---
+        $this->start_controls_section(
+            'section_style_menu_items',
+            [
+                'label' => esc_html__( 'Menu Items', 'devsroom-drilldown-mobile-menu' ),
+                'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        // Min-height (SLIDER, single-value — not in the D-05 responsive list).
+        $this->add_control(
+            'menu_item_min_height',
+            [
+                'label'      => esc_html__( 'Min Height', 'devsroom-drilldown-mobile-menu' ),
+                'type'       => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px' ],
+                'range'      => [
+                    'px' => [
+                        'min'  => 32,
+                        'max'  => 96,
+                        'step' => 1,
+                    ],
+                ],
+                'default'    => [
+                    'unit' => 'px',
+                    'size' => 48,   // Pitfall 9: matches --ddmm-menu-min-height.
+                ],
+                'selectors'  => [
+                    '{{WRAPPER}}' => '--ddmm-menu-min-height: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        // Padding (D-05 responsive + D-06 per-side Dimensions).
+        $this->add_control(
+            'menu_item_padding',
+            [
+                'label'      => esc_html__( 'Padding', 'devsroom-drilldown-mobile-menu' ),
+                'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em' ],
+                'responsive' => true,   // D-05.
+                'default'    => [
+                    'top'      => 0,
+                    'right'    => 16,
+                    'bottom'   => 0,
+                    'left'     => 16,
+                    'unit'     => 'px',
+                    'isLinked' => false,   // D-06: per-side (unlinked).
+                ],
+                'selectors'  => [
+                    // Pitfall 6: one {{UNIT}} per numeric token.
+                    '{{WRAPPER}} .ddmm-menu__item' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        // Normal / Hover / Active state tabs (STYL-05 + D-04 Active = current+ancestor).
+        $this->start_controls_tabs( 'menu_item_state_tabs' );
+
+        // NORMAL.
+        $this->start_controls_tab(
+            'menu_item_normal',
+            [ 'label' => esc_html__( 'Normal', 'devsroom-drilldown-mobile-menu' ) ]
+        );
+        $this->add_control(
+            'menu_item_color',
+            [
+                'label'     => esc_html__( 'Text Color', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'default'   => '#1a1a1a',   // Pitfall 9: matches --ddmm-item-text-color.
+                'selectors' => [
+                    '{{WRAPPER}}' => '--ddmm-item-text-color: {{VALUE}};',
+                ],
+            ]
+        );
+        $this->add_control(
+            'menu_item_bg',
+            [
+                'label'     => esc_html__( 'Background', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}}' => '--ddmm-item-bg: {{VALUE}};',
+                ],
+            ]
+        );
+        $this->end_controls_tab();
+
+        // HOVER (D-03).
+        $this->start_controls_tab(
+            'menu_item_hover',
+            [ 'label' => esc_html__( 'Hover', 'devsroom-drilldown-mobile-menu' ) ]
+        );
+        $this->add_control(
+            'menu_item_hover_color',
+            [
+                'label'     => esc_html__( 'Text Color', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}}' => '--ddmm-item-hover-text-color: {{VALUE}};',
+                ],
+            ]
+        );
+        $this->add_control(
+            'menu_item_hover_bg',
+            [
+                'label'     => esc_html__( 'Background', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}}' => '--ddmm-item-hover-bg: {{VALUE}};',
+                ],
+            ]
+        );
+        $this->end_controls_tab();
+
+        // ACTIVE (D-04: current-item + ancestor trail via marker classes, NOT pseudo-state).
+        $this->start_controls_tab(
+            'menu_item_active',
+            [ 'label' => esc_html__( 'Active', 'devsroom-drilldown-mobile-menu' ) ]
+        );
+        $this->add_control(
+            'menu_item_active_color',
+            [
+                'label'     => esc_html__( 'Active Text Color', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'default'   => '#1a1a1a',   // Pitfall 9: matches --ddmm-item-active-text-color.
+                // D-04: BOTH marker classes receive the same active color via the var bridge.
+                'selectors' => [
+                    '{{WRAPPER}}' => '--ddmm-item-active-text-color: {{VALUE}};',
+                ],
+            ]
+        );
+        $this->add_control(
+            'menu_item_active_bg',
+            [
+                'label'     => esc_html__( 'Active Background', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'alpha'     => true,
+                'selectors' => [
+                    '{{WRAPPER}}' => '--ddmm-item-active-bg: {{VALUE}};',
+                ],
+            ]
+        );
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
+
+        // Chevron (arrow) color.
+        $this->add_control(
+            'menu_item_chevron_color',
+            [
+                'label'     => esc_html__( 'Arrow Color', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}}' => '--ddmm-chevron-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        // Typography (D-02 — required by STYL-05).
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name'     => 'menu_item_typography',   // Pitfall 3: unique across widget.
+                'label'    => esc_html__( 'Typography', 'devsroom-drilldown-mobile-menu' ),
+                'selector' => '{{WRAPPER}} .ddmm-menu__item > a',
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // --- Style Tab: Search Box (STYL-06 + D-02 search input+results typography — CONDITIONAL on search_enabled === 'yes') ---
+        $this->start_controls_section(
+            'section_style_search',
+            [
+                'label'     => esc_html__( 'Search Box', 'devsroom-drilldown-mobile-menu' ),
+                'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
+                // Pitfall 4: condition gates the whole section (string 'yes').
+                'condition' => [
+                    'search_enabled' => 'yes',
+                ],
+            ]
+        );
+
+        // Background.
+        $this->add_control(
+            'search_input_bg',
+            [
+                'label'     => esc_html__( 'Background', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'default'   => '#ffffff',   // Pitfall 9: matches --ddmm-search-bg.
+                'selectors' => [
+                    '{{WRAPPER}}' => '--ddmm-search-bg: {{VALUE}};',
+                ],
+            ]
+        );
+
+        // Text color.
+        $this->add_control(
+            'search_input_color',
+            [
+                'label'     => esc_html__( 'Text Color', 'devsroom-drilldown-mobile-menu' ),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}}' => '--ddmm-search-text-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        // Border (group control — singular 'selector').
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name'     => 'search_input_border',   // Pitfall 3: unique across widget.
+                'label'    => esc_html__( 'Border', 'devsroom-drilldown-mobile-menu' ),
+                'selector' => '{{WRAPPER}} .ddmm-search__input',
+                // NOTE: the group control writes border/border-radius directly to the selector.
+                // The default --ddmm-search-border-color var stays as a baseline only.
+            ]
+        );
+
+        // Border radius (SLIDER).
+        $this->add_control(
+            'search_input_radius',
+            [
+                'label'      => esc_html__( 'Border Radius', 'devsroom-drilldown-mobile-menu' ),
+                'type'       => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px', '%' ],
+                'range'      => [
+                    'px' => [
+                        'min'  => 0,
+                        'max'  => 40,
+                        'step' => 1,
+                    ],
+                    '%'  => [
+                        'min'  => 0,
+                        'max'  => 50,
+                        'step' => 1,
+                    ],
+                ],
+                'default'    => [
+                    'unit' => 'px',
+                    'size' => 4,   // Pitfall 9: matches --ddmm-search-radius.
+                ],
+                'selectors'  => [
+                    '{{WRAPPER}}' => '--ddmm-search-radius: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        // Input typography (D-02 — required by STYL-06 extension).
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name'     => 'search_input_typography',   // Pitfall 3: unique across widget.
+                'label'    => esc_html__( 'Input Typography', 'devsroom-drilldown-mobile-menu' ),
+                'selector' => '{{WRAPPER}} .ddmm-search__input',
+            ]
+        );
+
+        // Results typography (D-02 — required by STYL-06 extension, distinct from input typography).
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name'     => 'search_results_typography',   // Pitfall 3: unique across widget.
+                'label'    => esc_html__( 'Results Typography', 'devsroom-drilldown-mobile-menu' ),
+                'selector' => '{{WRAPPER}} .ddmm-search__results, {{WRAPPER}} .ddmm-search__result-title',
+            ]
+        );
+
+        $this->end_controls_section();
     }
 
     /**
