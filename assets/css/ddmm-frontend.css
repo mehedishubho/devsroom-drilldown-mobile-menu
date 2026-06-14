@@ -336,7 +336,9 @@
     background: var( --ddmm-back-hover-bg );
 }
 
-/* Editor-only preview (D-18) — inline static root panel, never on frontend */
+/* Editor-only preview (D-18, D-07 full representative) — inline static preview, never on frontend.
+   All surfaces use the SAME BEM classes + --ddmm-* vars as the published drawer so
+   Style Tab changes cascade through identically (SC#5 strict parity). */
 .ddmm-editor-preview {
     padding: 12px;
     background: #f9f9f9;
@@ -344,14 +346,46 @@
     border-radius: 4px;
     margin-top: 8px;
 
-    & .ddmm-menu {
-        position: static;     /* override off-stage positioning for inline preview */
+    /* Pitfall 8: neutralize the off-canvas drawer so STYL-02 is visible in the editor.
+       The preview's .ddmm-drawer would otherwise be position:fixed + translateX(-100%). */
+    & .ddmm-drawer {
+        position: static;
+        top: auto;
+        left: auto;
+        height: auto;
+        max-width: 100%;
+        transform: none;
+        box-shadow: none;   /* the drawer shadow is distracting in preview */
     }
 
-    & .ddmm-menu__item {
-        background: #fff;
-        border-bottom: 1px solid #eee;
+    /* The overlay is irrelevant in preview (no off-canvas to overlay) — hide it. */
+    & .ddmm-overlay {
+        display: none;
     }
+
+    /* Panels are stacked absolute in frontend — neutralize for inline preview.
+       The root panel only is emitted in preview (no child panels), but be safe. */
+    & .ddmm-panel {
+        position: static;
+        transform: none;
+        opacity: 1;
+    }
+
+    /* The preview trigger sits above the drawer frame so STYL-01 is independently visible. */
+    & .ddmm-trigger-wrapper {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    /* The menu list — already position:static historically, keep it. */
+    & .ddmm-menu {
+        position: static;
+    }
+
+    /* D-07: NO .ddmm-menu__item hardcoded colors here. The global .ddmm-menu__item
+       rule (with --ddmm-item-bg, --ddmm-divider-color) drives the preview identically
+       to the published drawer. The previous white-background and light-grey-border
+       literals were removed so STYL-04/05 cascade cleanly into the preview. */
 }
 
 /* ========================================================================
