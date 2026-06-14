@@ -100,10 +100,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — DrillDownMenu.php: trigger hook attr (Pitfall 1), Animation/Search/Drawer-Settings Content Tab sections, render() config bridge (data-* + --ddmm-transition-* inline)
-- [ ] 05-02-PLAN.md — DrawerRenderer.php: render_search_box() method + conditional call in render() (sticky bar + input + results container with data-ddmm-search hooks)
-- [ ] 05-03-PLAN.md — ddmm-frontend.css: four animation-type class hooks (slide/fade/scale/slidefade), exited-left panel state, --ddmm-transition-easing consumption, hamburger to X morph, search box styles
-- [ ] 05-04-PLAN.md — ddmm-frontend.js: init() body + open/close/drill/back + search (index/filter/clear, DOM-API safe) + auto-open URL match + close behaviors
+- [x] 05-01-PLAN.md — DrillDownMenu.php: trigger hook attr (Pitfall 1), Animation/Search/Drawer-Settings Content Tab sections, render() config bridge (data-* + --ddmm-transition-* inline)
+- [x] 05-02-PLAN.md — DrawerRenderer.php: render_search_box() method + conditional call in render() (sticky bar + input + results container with data-ddmm-search hooks)
+- [x] 05-03-PLAN.md — ddmm-frontend.css: four animation-type class hooks (slide/fade/scale/slidefade), exited-left panel state, --ddmm-transition-easing consumption, hamburger to X morph, search box styles
+- [x] 05-04-PLAN.md — ddmm-frontend.js: init() body + open/close/drill/back + search (index/filter/clear, DOM-API safe) + auto-open URL match + close behaviors
 
 ### Phase 6: Style Tab Controls
 **Goal**: Users can fully customize the appearance of every visual element -- trigger button, drawer, header, menu items (with state variants), and search box -- through Elementor's Style Tab
@@ -115,8 +115,13 @@ Plans:
   3. Header section controls background, border, height, title typography/color, and close button color
   4. Menu Items section provides Normal/Hover/Active tabs controlling text color, background, arrow color, min-height, padding, and typography
   5. All Style Tab changes render identically in Elementor editor preview and on the published page
-**Plans**: TBD
+**Plans**: 3 plans
 **UI hint**: yes
+
+Plans:
+- [ ] 06-01-PLAN.md — Refine baseline CSS (D-01) + Trigger STYL-01, Drawer STYL-02, Header STYL-03 Style Tab sections
+- [ ] 06-02-PLAN.md — Panel/Back Row STYL-04, Menu Items Normal/Hover/Active STYL-05 (marker-class tabs), Search STYL-06 Style Tab sections
+- [ ] 06-03-PLAN.md — Editor-preview parity rework (D-07/D-08/SC#5) + human-verify checkpoint
 
 ### Phase 7: Accessibility & Compatibility Polish
 **Goal**: The menu is fully keyboard-navigable, screen-reader friendly, WooCommerce-compatible, translation-ready, and handles edge cases gracefully
@@ -143,5 +148,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 3. Custom Menu Builder | 0/2 | Not started | - |
 | 4. Rendering Pipeline & Drawer HTML | 0/4 | Not started | - |
 | 5. Frontend Drill-Down JavaScript | 0/4 | Planned | - |
-| 6. Style Tab Controls | 0/? | Not started | - |
+| 6. Style Tab Controls | 0/3 | Planned | - |
 | 7. Accessibility & Compatibility Polish | 0/? | Not started | - |
