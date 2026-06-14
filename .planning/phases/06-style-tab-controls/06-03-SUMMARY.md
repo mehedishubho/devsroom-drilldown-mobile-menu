@@ -18,7 +18,7 @@ provides:
   - "Full representative render_editor_preview() emitting every BEM surface the Style Tab controls (trigger + header + search sample + back row + items with one ddmm-current-item marker + chevron) — D-07"
   - "Cleaned .ddmm-editor-preview CSS block: zero hardcoded #fff/#eee widget-content colors (D-07 removal) + off-canvas .ddmm-drawer neutralizer (Pitfall 8) so STYL-02 is visible in the editor"
   - "render_editor_item() helper gains a bool $mark_active param — the first preview item carries ddmm-current-item so the STYL-05 Active tab is visible in the editor (D-04)"
-affects: []  # Phase 6 is the final phase of milestone v1.0
+affects: [07-accessibility-compatibility-polish]  # Phase 7 (a11y + compat polish) builds on the Style Tab surface
 
 # Tech tracking
 tech-stack:
@@ -106,7 +106,7 @@ None for code. The deferred human verification (browser SC#5 parity across all s
 
 ## Next Phase Readiness
 
-- Phase 6 (style-tab-controls) is the final phase of milestone v1.0. All six Style Tab sections (STYL-01..06) are registered, the `--ddmm-*` theming bridge is complete, the editor preview reflects every section with strict parity (D-07/D-08), and the Phase 5 hardcoded active rule is removed (Pitfall 2 closeout, done in 06-02).
+- Phase 6 (style-tab-controls) is complete; Phase 7 (Accessibility & Compatibility Polish) follows and builds on the Style Tab surface. All six Style Tab sections (STYL-01..06) are registered, the `--ddmm-*` theming bridge is complete, the editor preview reflects every section with strict parity prerequisites (D-07/D-08), and the Phase 5 hardcoded active rule is removed (Pitfall 2 closeout, done in 06-02).
 - The only outstanding item is the deferred SC#5 browser parity verification (`06-HUMAN-UAT.md`) — a visual confirmation, not a code gap. If any section fails parity during UAT, `/gsd-plan-phase 6 --gaps` will create a gap-closure plan.
 
 ## Self-Check: PASSED
